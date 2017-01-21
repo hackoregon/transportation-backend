@@ -17,8 +17,7 @@ At the command line:
 ```
 virtualenv -p python3 venv
 source venv/bin/activate
-pip install django
-pip install django-leaflet
+pip install -r requirements.txt
 brew install gdal
 brew install libgeoip
 psql postgres
