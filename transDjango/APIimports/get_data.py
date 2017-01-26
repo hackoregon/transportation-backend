@@ -19,10 +19,10 @@ def oneRingToBindThem():
                         url=url,
                         name=name
                 )
+                apiElement.save()
         except HTTPError:
             logger.exception("non 200 response from api request " + url)
         except ValueError:
             logger.exception("exception parsing json in response from api request against " + url)
-        else:
-            apiElement.save()
+
 
