@@ -1,4 +1,4 @@
-### Proof of Concept Django GeoJson Loader
+## Proof of Concept Django GeoJson Loader
 
 This may not be the right way, but it does seem to be *a* way to load data into a PostGIS database using Django.  This particular setup uses a management command (e.g. `manage.py <loader_name>)` to do the deed.  A few notes
 
@@ -9,12 +9,15 @@ This may not be the right way, but it does seem to be *a* way to load data into 
 * Someone who knows something about geospatial databases may have some opinions on projections, database setup, etc...  These opinions, and any others, would be most welcome.
 
 
-## Mac Installation
+### Mac Installation
 
 You will need a Postgres database with PostGIS installed and it's assumed you can log into postres as a superuser.  If you don't use homebrew, you will need to use a alternate method of installing gdal and libgeoip.
 
 At the command line:
 ```
+git clone https://github.com/hackoregon/transportation-backend.git test
+cd transportation-backend test
+git checkout -b djangoImport origin/djangoImport
 virtualenv -p python3 venv
 source venv/bin/activate
 pip install -r requirements.txt
@@ -25,25 +28,25 @@ psql postgres
     
 (Now in Postgres...)
 ```
-CREATE ROLE transdev WITH PASSWORD 'password';
+CREATE ROLE transdev WITH PASSWORD 'password' LOGIN;
 CREATE DATABASE transdev WITH OWNER=transdev;
-/c transdev
+\c transdev
 CREATE EXTENSION postgis;
 \q
 ```
+Rename /transDjango/transDajngo/settings_local_example.py to settings_local.py and updated that file if needed.
 
 
-## Running the example
+### Running the Example
 
 Assumes you are in the transDjango directory
 1.  ./manage.py migrate
 2.  ./manage.py import_CIPpoints
 
 
-## Create Your Own Import Script
+### Create Your Own Import Script
 
 To set up a new import script, you will need to do the following:
-1. Rename /transDjango/transDajngo/settings_local_example.py to settings_local.py and updated that file if needed.
 1. Create the importer script as a management command in APIimports/management/commands.  You can see import_CIPpoints.py for an example.
 2. Deposit the relevant GeoJson file in APIimports/management/commands/datafiles
 3. Add an import line to the APIimports/models.py file
