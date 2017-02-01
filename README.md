@@ -18,7 +18,7 @@ We're using the standard github [forking method](https://gist.github.com/Chaser3
 
 ## Information Sources
 
-The [transportation-backend](https://github.com/hackoregon/transportation-backend/wiki) wiki is the best place to go for information on the project.  That includes next steps, links to data sources, and other processes and procedures.  
+The transportation-backend [wiki](https://github.com/hackoregon/transportation-backend/wiki) is the best place to go for information on the project.  That includes next steps, links to data sources, and other processes and procedures.  
 
 
 
