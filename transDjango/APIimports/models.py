@@ -2,7 +2,7 @@ from django.db import models
 
 
 from .modelDefinitions.CIPpoint import *
-
+from .modelDefinitions.CIPline import *
 
 from django.contrib.postgres import fields as pg_fields
 
