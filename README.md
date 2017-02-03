@@ -8,13 +8,7 @@ The transDjango directory contains the django application that we're working on.
 
 To see what needs to be done, you can check the github issues page.  We've also connected Waffle(https://waffle.io/hackoregon/transportation-backend) and [GitHub Projects](https://github.com/orgs/hackoregon/projects/1) to these issues if you like using those applications.
 
-We're using the standard github [forking method](https://gist.github.com/Chaser324/ce0505fbed06b947d962) for contributions.  In brief:
-- Fork the transportation-backend repo into your own account.
-- Make changes to the fork.
-- Before starting the pull-request process, merge upstream changes into your fork.
-- Push the fork up to your own GitHub user space.
-- Create a pull request for your fork.
-
+Anyone in the GitHub Transportation 2016-17 team can push to the repository.  If you'r not a member, you can request to be added to the team through GitHub or Slack.  Please follow the [openopensource](http://openopensource.org/) guidelines for contributing to the code base.
 
 ## Information Sources
 
