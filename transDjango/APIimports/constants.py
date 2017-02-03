@@ -1,3 +1,5 @@
+
+
 APIS = (
     (
         'Capital Improv. Project - Points',
@@ -10,11 +12,11 @@ APIS = (
     (
         'Capital Improv. Project - Polygons',
         'http://gis.pdx.opendata.arcgis.com/datasets/b8ce5b03674841e4834de1617b7f84ef_45.geojson'
-    )
+    ),
     (
         'Street Permit Jobs Point',
         'http://gis.pdx.opendata.arcgis.com/datasets/027156c0ed574d79a2b7a7a2f4c941f1_56.geojson'
-    )
+    ),
     (
         'Streets Permit Jobs Line',
         'http://gis.pdx.opendata.arcgis.com/datasets/3c3d35ff54964d3fa7c27ed846774695_65.geojson'
@@ -25,9 +27,10 @@ APIS = (
     ),
     (
         'Streets Contract Jobs',
-        'http://gis.pdx.opendata.arcgis.com/datasets/927752554ff34ec88398896a12abf14e_67.geojson'),
+        'http://gis.pdx.opendata.arcgis.com/datasets/927752554ff34ec88398896a12abf14e_67.geojson'
+    ),
     (
         'Streets Contract Jobs Multi',
         'http://gis.pdx.opendata.arcgis.com/datasets/b2a53c4669f8416a9468f96cdc52c7d6_57.geojson'
-    ),
+    )
 )

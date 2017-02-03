@@ -1,11 +1,9 @@
-## Proof of Concept Django GeoJson Loader
+## Django app for loading data (and serving APIs?)
 
-This may not be the right way, but it does seem to be *a* way to load data into a PostGIS database using Django.  This particular setup uses a management command (e.g. `manage.py <loader_name>)` to do the deed.  A few notes
+This particular setup uses a management command (e.g. `manage.py <loader_name>)` to do the uploads.  A few notes:
 
 * In order to minimize merge conflicts, each loader is a separate file and loads only one geojson file.  It's possible that this process could be abstracted a little bit though, given the right conditions.  For instance, if we assume that we will be loading all fields from each API, a single loader could potentially serve all APIs.
-* While roughing this out, I ran into problems loading null values into date fields.  For now, I've simply dropped the date models but this will need to be resolved.
 * The test was run on a mac with a local DB.  I've not tried to push to the remote DB yet.
-* If we go in this direction, it's assumed that file-based imports will be changed to directly querying the API.
 * Someone who knows something about geospatial databases may have some opinions on projections, database setup, etc...  These opinions, and any others, would be most welcome.
 
 
@@ -34,12 +32,13 @@ CREATE DATABASE transdev WITH OWNER=transdev;
 CREATE EXTENSION postgis;
 \q
 ```
-Rename /transDjango/transDajngo/settings_local_example.py to settings_local.py and updated that file if needed.
+Rename /transDjango/transDajngo/settings_local_example.py to settings_local.py and update that file if needed.
 
 
 ### Running the Example
 
 Assumes you are in the transDjango directory
+
 1.  ./manage.py migrate
 2.  ./manage.py import_CIPpoints
 
