@@ -1,10 +1,8 @@
 from django.core.management.base import BaseCommand, CommandError
-from APIimports.models import Project, ApiElement
-from django.contrib.gis.gdal import DataSource
-from django.contrib.gis.utils import LayerMapping
-import os
-import sys  
-
+from psycopg2.extras import DateRange
+from APIimports.models import Point, ApiElement
+from django.contrib.gis.geos import GEOSGeometry
+import sys
 
 
 class Command(BaseCommand):
@@ -14,30 +12,24 @@ class Command(BaseCommand):
     #     parser.add_argument('filePath', metavar='geojson file')
 
     def handle(self, *args, **options):
-        
-        element = ApiElement.objects.filter(name='Capital Improv. Project - Points')
-        print(element.payload)
-        sys.exit() 
-        #layer = dataSet[0]
-        #print('\n'.join(layer.fields))
-        
-        fieldMap = {
-            'PrjNumSAP': 'Project_Number_SAP',
-            'PrjName': 'Project_Name',
-            'Status': 'Status',
-            'Comments': 'Comments',
-            'Program': 'Program',
-            'FundSrc': 'Funding_Source',
-            'EstCost': 'Estimated_Total_Project_Cost',
-            'Bureau': 'Bureau_Name',
-            'Contact': 'Contact',
-            'Geom': 'POINT',
-        }
+        sourceName = 'Capital Improv. Project - Points'
+        apiModel = ApiElement.objects.filter(name=sourceName)[0]
+        sourceJson = apiModel.payload
+        # print(sourceJson)
 
-        lm = LayerMapping(CIPpoint, dataSet, fieldMap)
-        lm.save()
+        for feature in sourceJson['features']:
+            # print(feature)
+            start = feature['properties']['Est_Construction_Start_Date']
+            end = feature['properties']['Est_Construction_Comp_Date']
+            dateRange = DateRange(lower=start, upper=end)
+            # print(feature['geometry'])
+            geom = GEOSGeometry(str(feature['geometry']))
+            newPoint = Point(
+                geom=geom,
+                dateRange=dateRange,
+                sourceRef=apiModel,
+                data=feature['properties']
+            )
 
-       
-
-
-        
+            newPoint.save()
+            sys.exit()

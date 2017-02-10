@@ -5,6 +5,7 @@ from .modelDefinitions.CIPline import *
 from django.contrib.postgres import fields as pg_fields
 import django.utils.timezone
 
+
 class ApiElement(models.Model):
     # The actual object represented by the api
     payload = pg_fields.JSONField()
@@ -12,11 +13,9 @@ class ApiElement(models.Model):
     url = models.CharField(max_length=2083)
     name = models.CharField(max_length=2083)
 
-class Project(models.Model):
-    geom = models.MultiPointField()
-    bureau = models.CharField(max_length=1000)
-    contact = models.CharField(max_length=1000)
-    name = models.CharField(max_length=1000)
-    description = models.CharField(max_length=1000)
-    period = pg_fields.DateRangeField()
-    original = models.ForeignKey(ApiElement)
+
+class Point(models.Model):
+    geom = models.PointField()
+    dateRange = models.CharField(max_length=1000, default=None)
+    sourceRef = models.ForeignKey(ApiElement, default=None)
+    data = models.CharField(max_length=1000, default=None)
