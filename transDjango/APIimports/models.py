@@ -22,4 +22,4 @@ class Point(models.Model):
     geom = models.PointField()
     dateRange = models.CharField(max_length=1000, default=None)
     sourceRef = models.ForeignKey(ApiElement, default=None)
-    data = models.CharField(max_length=1000, default=None)
+    data = models.TextField(default=None)

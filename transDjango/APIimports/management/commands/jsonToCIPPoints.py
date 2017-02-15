@@ -15,7 +15,7 @@ class Command(BaseCommand):
         sourceName = 'Capital Improv. Project - Points'
         apiModel = ApiElement.objects.filter(name=sourceName)[0]
         sourceJson = apiModel.payload
-        # print(sourceJson)
+        #print(sourceJson)
 
         for feature in sourceJson['features']:
             # print(feature)
@@ -30,6 +30,8 @@ class Command(BaseCommand):
                 sourceRef=apiModel,
                 data=feature['properties']
             )
-
+            print(geom)
+            print(dateRange)
+            print(feature['properties'])
             newPoint.save()
-            sys.exit()
+            #sys.exit()
