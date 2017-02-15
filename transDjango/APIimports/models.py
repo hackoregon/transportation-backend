@@ -14,6 +14,9 @@ class ApiElement(models.Model):
     url = models.CharField(max_length=2083)
     name = models.CharField(max_length=2083)
 
+    def __str__(self):
+        return self.name
+
 
 class Point(models.Model):
     geom = models.PointField()
