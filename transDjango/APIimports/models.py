@@ -1,7 +1,9 @@
-from django.db import models
-from .modelDefinitions.CIPpoint import *
-from .modelDefinitions.CIPline import *
-from .modelDefinitions.StPJline import *
+from django.contrib.gis.db import models
+#from .modelDefinitions.CIPpoint import *
+#from .modelDefinitions.CIPline import *
+#from .modelDefinitions.StPJline import *
+from django.contrib.postgres.fields import DateRangeField
+
 
 from django.contrib.postgres import fields as pg_fields
 import django.utils.timezone
@@ -20,6 +22,6 @@ class ApiElement(models.Model):
 
 class Point(models.Model):
     geom = models.PointField()
-    dateRange = models.CharField(max_length=1000, default=None)
+    dateRange = DateRangeField()
     sourceRef = models.ForeignKey(ApiElement, default=None)
     data = models.TextField(default=None)

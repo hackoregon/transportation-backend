@@ -2,6 +2,8 @@ from django.core.management.base import BaseCommand, CommandError
 from psycopg2.extras import DateRange
 from APIimports.models import Point, ApiElement
 from django.contrib.gis.geos import GEOSGeometry
+#from datetime import datetime
+from dateutil import parser
 import sys
 
 
@@ -21,8 +23,17 @@ class Command(BaseCommand):
             # print(feature)
             start = feature['properties']['Est_Construction_Start_Date']
             end = feature['properties']['Est_Construction_Comp_Date']
-            dateRange = DateRange(lower=start, upper=end)
-            # print(feature['geometry'])
+            print(start, end)
+            if end != None and start != None:
+                start = parser.parse(start).date()
+                end = parser.parse(end).date()
+                if end >= start:
+                    dateRange = DateRange(lower=start, upper=end)
+                else:
+                    dateRange = DateRange(lower=None, upper=None)
+            else:
+                    dateRange = DateRange(lower=None, upper=None)
+
             geom = GEOSGeometry(str(feature['geometry']))
             newPoint = Point(
                 geom=geom,
