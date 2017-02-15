@@ -20,3 +20,13 @@ class Point(models.Model):
     dateRange = DateRangeField()
     sourceRef = models.ForeignKey(ApiElement, default=None)
     data = models.TextField(default=None)
+
+    #class Meta:
+    #    abstract=True
+
+
+class Line(models.Model):
+    geom = models.GeometryField()
+    dateRange = DateRangeField()
+    sourceRef = models.ForeignKey(ApiElement, default=None)
+    data = models.TextField(default=None)
