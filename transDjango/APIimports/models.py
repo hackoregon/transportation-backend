@@ -1,10 +1,5 @@
 from django.contrib.gis.db import models
-#from .modelDefinitions.CIPpoint import *
-#from .modelDefinitions.CIPline import *
-#from .modelDefinitions.StPJline import *
 from django.contrib.postgres.fields import DateRangeField
-
-
 from django.contrib.postgres import fields as pg_fields
 import django.utils.timezone
 
