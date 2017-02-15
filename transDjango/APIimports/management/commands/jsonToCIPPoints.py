@@ -13,12 +13,13 @@ class Command(BaseCommand):
         sourceName = 'Capital Improv. Project - Points'
         apiModel = ApiElement.objects.filter(name=sourceName)[0]
         sourceJson = apiModel.payload
+        #print(sourceJson)
 
         for feature in sourceJson['features']:
+            # print(feature)
             start = feature['properties']['Est_Construction_Start_Date']
             end = feature['properties']['Est_Construction_Comp_Date']
             print(start, end)
-            # TODO: Hacky implementation for now.
             if end != None and start != None:
                 start = parser.parse(start).date()
                 end = parser.parse(end).date()
@@ -36,4 +37,6 @@ class Command(BaseCommand):
                 sourceRef=apiModel,
                 data=feature['properties']
             )
+
+            newPoint.save()
 
