@@ -2,7 +2,6 @@
 
 This particular setup uses a management command (e.g. `manage.py <loader_name>)` to do the uploads.  A few notes:
 
-* In order to minimize merge conflicts, each loader is a separate file and loads only one geojson file.  It's possible that this process could be abstracted a little bit though, given the right conditions.  For instance, if we assume that we will be loading all fields from each API, a single loader could potentially serve all APIs.
 * The test was run on a mac and Ubuntu 14.04 LTS with a local DB.  We've not tried to push to the remote DB yet.
 * Someone who knows something about geospatial databases may have some opinions on projections, database setup, etc...  These opinions, and any others, would be most welcome.
 
@@ -13,9 +12,8 @@ You will need a Postgres database with PostGIS installed and it's assumed you ca
 
 At the command line:
 ```
-git clone https://github.com/hackoregon/transportation-backend.git test
-cd transportation-backend test
-git checkout -b djangoImport origin/djangoImport
+git clone https://github.com/hackoregon/transportation-backend.git
+cd transportation-backend
 virtualenv -p python3 venv
 source venv/bin/activate
 pip install -r requirements.txt
@@ -32,15 +30,42 @@ CREATE DATABASE transdev WITH OWNER=transdev;
 CREATE EXTENSION postgis;
 \q
 ```
-Rename /transDjango/transDajngo/settings_local_example.py to settings_local.py and update that file if needed.
+
+(Back at the command line...)
+
+Enable local settings. 
+
+```
+mv transDjango/transDjango/settings_local_example.py transDjango/transDjango/settings_local.py
+```
+
+Create the database structure
+```
+cd transDjango
+./manage.py migrate
+```
+
+Download API json files to the database
+
+`./manage.py import_jsons`
+
+Copy data to the main geometry tables that are connected to the API
+```
+./manage.py jsonToCIPPoints
+./manage.py jsonToCIPLines
+```
+
+Run the dev server and see if the API is working
+
+`./manage.py runserver`
+
+API should be available at 
+
+localhost:8000/api/points
+
+localhost:8000/api/lines
 
 
-### Running the Example
-
-Assumes you are in the transDjango directory
-
-1.  ./manage.py migrate
-2.  ./manage.py import_CIPpoints
 
 
 ### Create Your Own Import Script
