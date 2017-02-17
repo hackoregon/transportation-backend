@@ -53,6 +53,7 @@ Copy data to the main geometry tables that are connected to the API
 ```
 ./manage.py jsonToCIPPoints
 ./manage.py jsonToCIPLines
+./manage.py jsonToCIPPolygons
 ```
 
 Run the dev server and see if the API is working
