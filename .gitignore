@@ -1,6 +1,7 @@
 
 settings_local.py
 venv
+ho_db_bak
 *.log
 *.pot
 *.pyc

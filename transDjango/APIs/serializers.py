@@ -1,10 +1,10 @@
-from APIimports.models import Point, Line
+from APIimports.models import Point, Line, ApiElement
 from rest_framework import serializers
 from rest_framework_gis import serializers as gis_serializers
 
 
 class PointSerializer(gis_serializers.GeoFeatureModelSerializer):
-
+    sourceRef = serializers.StringRelatedField()
 
     class Meta:
         model = Point
@@ -12,9 +12,8 @@ class PointSerializer(gis_serializers.GeoFeatureModelSerializer):
         fields = ['dateRange', 'data', 'sourceRef']
         abstract = True
 
-class LineSerializer(PointSerializer):
 
+class LineSerializer(PointSerializer):
 
     class Meta(PointSerializer.Meta):
         model = Line
-
