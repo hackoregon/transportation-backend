@@ -21,11 +21,15 @@ class Point(models.Model):
     sourceRef = models.ForeignKey(ApiElement, default=None)
     data = models.TextField(default=None)
 
-    # class Meta:
-    #     abstract=True
-
 
 class Line(models.Model):
+    geom = models.GeometryField()
+    dateRange = DateRangeField()
+    sourceRef = models.ForeignKey(ApiElement, default=None)
+    data = models.TextField(default=None)
+
+
+class Polygon(models.Model):
     geom = models.GeometryField()
     dateRange = DateRangeField()
     sourceRef = models.ForeignKey(ApiElement, default=None)

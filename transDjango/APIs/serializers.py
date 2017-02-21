@@ -1,4 +1,4 @@
-from APIimports.models import Point, Line, ApiElement
+from APIimports.models import Point, Line, Polygon, ApiElement
 from rest_framework import serializers
 from rest_framework_gis import serializers as gis_serializers
 
@@ -17,3 +17,9 @@ class LineSerializer(PointSerializer):
 
     class Meta(PointSerializer.Meta):
         model = Line
+
+
+class PolygonSerializer(LineSerializer):
+
+    class Meta(LineSerializer.Meta):
+        model = Polygon
