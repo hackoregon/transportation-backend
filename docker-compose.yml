@@ -4,7 +4,7 @@ services:
 
   db:
     build: ./dbdocker
-    command: ./setupdb.sh
+    #command: ./setupdb.sh
     #command: sudo -u postgres psql < /code/setupdb.sql
     volumes:
       - ./dbdocker/code:/code
@@ -15,7 +15,8 @@ services:
 
   web:
     build: ./apidocker
-    command: ./start-dev-server.sh
+    command: sleep 1000
+    #command: ./start-api-server.sh
     volumes:
       - ./transDjango:/code
     ports:
