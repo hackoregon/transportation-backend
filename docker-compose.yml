@@ -1,0 +1,31 @@
+version: '2.1'
+
+services:
+
+  db:
+    build: ./dbdocker
+    command: ./setupdb.sh
+    #command: sudo -u postgres psql < /code/setupdb.sql
+    volumes:
+      - ./dbdocker/code:/code
+    networks:
+      - backend
+    healthcheck:
+      test: "exit 0"
+
+  web:
+    build: ./apidocker
+    command: ./start-dev-server.sh
+    volumes:
+      - ./transDjango:/code
+    ports:
+      - "8000:8000"
+    networks:
+      - backend
+    depends_on:
+      db:
+        condition: service_healthy
+
+networks:
+  backend:
+    driver: bridge

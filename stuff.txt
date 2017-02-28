@@ -1,0 +1,17 @@
+web:
+    build: ./apidocker
+    #command: ./start-dev-server.sh
+    volumes:
+      - ./backend:/code
+    ports:
+      - "8000:8000"
+    networks:
+      - backend
+    depends_on:
+      - db
+
+
+      ADD ./setupdb.sql /provision/
+      WORKDIR /provision/
+      RUN su postgres
+      RUN psql < setupdb.sql

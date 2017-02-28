@@ -29,7 +29,7 @@ DATABASES = {
         'NAME': 'transdev',
         'USER': 'transdev',
         'PASSWORD': 'password',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '',
     }
 }
