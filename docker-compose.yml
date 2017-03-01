@@ -4,10 +4,8 @@ services:
 
   db:
     build: ./dbdocker
-    #command: ./setupdb.sh
-    #command: sudo -u postgres psql < /code/setupdb.sql
-    volumes:
-      - ./dbdocker/code:/code
+    # volumes:
+    #   - ./dbdocker/code:/code
     networks:
       - backend
     healthcheck:
@@ -15,8 +13,7 @@ services:
 
   web:
     build: ./apidocker
-    command: sleep 1000
-    #command: ./start-api-server.sh
+    command: ./start-api-server.sh
     volumes:
       - ./transDjango:/code
     ports:
