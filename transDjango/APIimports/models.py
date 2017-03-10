@@ -19,6 +19,7 @@ class Point(models.Model):
     geom = models.PointField()
     dateRange = DateRangeField()
     sourceRef = models.ForeignKey(ApiElement, default=None)
+    projectName = models.CharField(max_length=2083)
     data = models.TextField(default=None)
 
 
@@ -26,6 +27,7 @@ class Line(models.Model):
     geom = models.GeometryField()
     dateRange = DateRangeField()
     sourceRef = models.ForeignKey(ApiElement, default=None)
+    projectName = models.CharField(max_length=2083)
     data = models.TextField(default=None)
 
 
@@ -33,4 +35,5 @@ class Polygon(models.Model):
     geom = models.GeometryField()
     dateRange = DateRangeField()
     sourceRef = models.ForeignKey(ApiElement, default=None)
+    projectName = models.CharField(max_length=2083)
     data = models.TextField(default=None)

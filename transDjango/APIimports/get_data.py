@@ -10,14 +10,14 @@ logger = logging.getLogger(__name__)
 
 def oneRingToBindThem():
 
-    for name, url in constants.APIS:
+    for name, meta in constants.API_META:
 
         # Prevent duplicates for now.  Later we'll need to be
         # more sophisticated about how we handle repeated downloads
         if name in list(ApiElement.objects.values_list('name', flat=True)):
             print("Skipped {} because it's already in the database.".format(name))
             continue
-        response = requests.get(url)
+        response = requests.get(meta['uri'])
 
         try:
             response.raise_for_status()
@@ -25,8 +25,9 @@ def oneRingToBindThem():
 
             apiElement = ApiElement(
                 payload=geojson,
-                url=url,
-                name=name
+                url=meta['uri'],
+                name=name,
+                projectName=meta['projectName']
             )
             apiElement.save()
 
