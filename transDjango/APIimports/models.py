@@ -13,7 +13,7 @@ class ApiElement(models.Model):
     projectName = models.CharField(max_length=2083)
 
     def __str__(self):
-        return self.name
+        return self.apiName
 
 
 class Point(models.Model):

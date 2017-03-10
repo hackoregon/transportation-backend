@@ -1,5 +1,5 @@
 from psycopg2.extras import DateRange
-from APIimports.models import Point, ApiElement
+from APIimports import models
 from django.contrib.gis.geos import GEOSGeometry
 from dateutil import parser
 import logging
@@ -17,7 +17,7 @@ def jsonToPoints(importList):
 
         metadata = constants.API_META[apiName]
 
-        apiModel = ApiElement.objects.filter(apiName=apiName)[0]
+        apiModel = models.ApiElement.objects.filter(apiName=apiName)[0]
         sourceJson = apiModel.payload
         #print(sourceJson)
 
@@ -39,7 +39,17 @@ def jsonToPoints(importList):
                     dateRange = DateRange(lower=None, upper=None)
 
             geom = GEOSGeometry(str(feature['geometry']))
-            newPoint = Point(
+            if geom.geom_type == 'Point':
+                model = getattr(models, 'Point')
+            elif geom.geom_type in ('LineString', 'MultiLineString'):
+                model = getattr(models, 'Line')
+            elif geom.geom_type in ('Polygon', 'MultiPolygon'):
+                model = getattr(models, 'Polygon')
+            else:
+                print("Could not identify geometry type: {}.  Exiting.".format(geom.geom_type))
+                sys.exit()
+            
+            newPoint = model(
                 geom=geom,
                 dateRange=dateRange,
                 sourceRef=apiModel,

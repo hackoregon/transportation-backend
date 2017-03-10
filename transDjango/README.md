@@ -50,11 +50,8 @@ Download API json files to the database
 `./manage.py import_jsons`
 
 Copy data to the main geometry tables that are connected to the API
-```
-./manage.py jsonToCIPPoints
-./manage.py jsonToCIPLines
-./manage.py jsonToCIPPolygons
-```
+
+`./manage.py ingest_jsons`
 
 Run the dev server and see if the API is working
 

@@ -6,5 +6,10 @@ class Command(BaseCommand):
     help = 'Import CIP points'
 
     def handle(self, *args, **options):
-        apiList = ['Capital Improv. Project - Points']
+        apiList = [
+            'Capital Improv. Project - Points',
+            'Capital Improv. Project - Lines',
+            'Capital Improv. Project - Polygons',
+        ]
+
         jsonToPoints(apiList)

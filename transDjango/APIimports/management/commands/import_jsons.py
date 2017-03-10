@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
-from APIimports.get_data import oneRingToBindThem
+from APIimports.importers.get_data import oneRingToBindThem
 from django.contrib.gis.gdal import DataSource
 from django.contrib.gis.utils import LayerMapping
 import os
