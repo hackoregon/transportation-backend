@@ -19,20 +19,27 @@ API_META = {
         'startDateField': 'Est_Construction_Start_Date',
         'endDateField': 'Est_Construction_Comp_Date',
     },
+    'Street Permit Jobs - Points': {
+        'uri': 'http://gis.pdx.opendata.arcgis.com/datasets/027156c0ed574d79a2b7a7a2f4c941f1_56.geojson',
+        'projectName': 'Street Permit Jobs',
+        'startDateField': 'COCDate',
+        'endDateField': 'COCDate',
+    },
+    'Street Permit Jobs - Lines': {
+        'uri': 'http://gis.pdx.opendata.arcgis.com/datasets/3c3d35ff54964d3fa7c27ed846774695_65.geojson',
+        'projectName': 'Street Permit Jobs',
+        'startDateField': 'COCDate',
+        'endDateField': 'COCDate',
+    },
+    'Street Permit Jobs - Polygons': {
+        'uri': 'http://gis.pdx.opendata.arcgis.com/datasets/ed82f763d4604f669680525912d51b1f_66.geojson',
+        'projectName': 'Street Permit Jobs',
+        'startDateField': 'COCDate',
+        'endDateField': 'COCDate',
+    },
 }
 '''
-    (
-        'Street Permit Jobs Point',
-        'http://gis.pdx.opendata.arcgis.com/datasets/027156c0ed574d79a2b7a7a2f4c941f1_56.geojson'
-    ),
-    (
-        'Streets Permit Jobs Line',
-        'http://gis.pdx.opendata.arcgis.com/datasets/3c3d35ff54964d3fa7c27ed846774695_65.geojson'
-    ),
-    (
-        'Streets Permit Jobs Poly',
-        'http://gis.pdx.opendata.arcgis.com/datasets/ed82f763d4604f669680525912d51b1f_66.geojson'
-    ),
+
     (
         'Streets Contract Jobs',
         'http://gis.pdx.opendata.arcgis.com/datasets/927752554ff34ec88398896a12abf14e_67.geojson'

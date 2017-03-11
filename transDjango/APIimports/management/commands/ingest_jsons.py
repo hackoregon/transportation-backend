@@ -10,6 +10,9 @@ class Command(BaseCommand):
             'Capital Improv. Project - Points',
             'Capital Improv. Project - Lines',
             'Capital Improv. Project - Polygons',
+            'Street Permit Jobs - Points',
+            'Street Permit Jobs - Lines',
+            'Street Permit Jobs - Polygons',
         ]
 
         jsonToPoints(apiList)

@@ -63,24 +63,15 @@ localhost:8000/api/points
 
 localhost:8000/api/lines
 
+### Current imported data
 
+The ingest_jsons importer will imports Point, Lines and Polygons for CIP and Street Permit city APIs.  The street permit data is being loaded as a place holder for something more interesting/useful.  But it does allow us to provide two different project types to query for on the front end.  
 
 
 ### Create Your Own Import Script
 
-To set up a new import script, you will need to do the following:
-1. Create the importer script as a management command in APIimports/management/commands.  You can see import_CIPpoints.py for an example.
-2. Deposit the relevant GeoJson file in APIimports/management/commands/datafiles
-3. Add an import line to the APIimports/models.py file
-4. Run the importer at the command line with ./manage.py <your_importer>
+Any GeoJson data can be imported by the current ingest_jsons script.  One possible procedure for adding a data set:
 
-### Completed Importer Scripts So Far
-
-Notes: So far we're ignoring date/time fields due to some inconsistencies when loading using ogrinspect.
-
-We can always use another set of eyes to make sure things can be abstracted further! 
-
-1. import_CIPpoints.py
-2. import_CIPlines.py
-3. import_StPJlines.py
-
+1. Add the GeoJson to the database by copying/modifying the APIimports/management/command/import_jsons.py script.
+2. Add the appropriate metadata to the APIimports/constants file.
+3. Add the API name to the APIimports/management/command/injest_jsons.py script.
