@@ -10,7 +10,7 @@ import sys
 logger = logging.getLogger(__name__)
 
 
-def jsonToPoints(importList):
+def jsonToPLP(importList):
 
 
     for apiName in importList:
@@ -21,7 +21,9 @@ def jsonToPoints(importList):
         sourceJson = apiModel.payload
         #print(sourceJson)
 
+        counter = 0
         for feature in sourceJson['features']:
+            counter += 1
             # print(feature)
             startFieldName = metadata['startDateField']
             endFieldName = metadata['endDateField']
@@ -57,3 +59,5 @@ def jsonToPoints(importList):
             )
 
             newPoint.save()
+            if counter > 20:
+                break

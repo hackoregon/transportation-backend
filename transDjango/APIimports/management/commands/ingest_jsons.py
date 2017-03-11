@@ -1,9 +1,9 @@
 from django.core.management.base import BaseCommand, CommandError
-from APIimports.importers.import_points import jsonToPoints
+from APIimports.importers.ingest_geojson import jsonToPLP
 
 
 class Command(BaseCommand):
-    help = 'Import CIP points'
+    help = 'Ingest Data from saved GeoJsons'
 
     def handle(self, *args, **options):
         apiList = [
@@ -15,4 +15,4 @@ class Command(BaseCommand):
             'Street Permit Jobs - Polygons',
         ]
 
-        jsonToPoints(apiList)
+        jsonToPLP(apiList)
