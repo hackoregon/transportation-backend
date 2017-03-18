@@ -50,7 +50,7 @@ def jsonToPLP(importList):
             else:
                 print("Could not identify geometry type: {}.  Exiting.".format(geom.geom_type))
                 sys.exit()
-            
+
             newPoint = model(
                 geom=geom,
                 dateRange=dateRange,
@@ -59,5 +59,3 @@ def jsonToPLP(importList):
             )
 
             newPoint.save()
-            if counter > 20:
-                break

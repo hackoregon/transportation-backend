@@ -10,15 +10,17 @@ from rest_framework import authentication, permissions
 
 
 class PointView(generics.ListCreateAPIView):
+
     model = Point
     serializer_class = PointSerializer
-    queryset = Point.objects.all()
+    queryset = Point.objects.prefetch_related('sourceRef')
 
 
 class LineView(generics.ListCreateAPIView):
+
     model = Line
     serializer_class = LineSerializer
-    queryset = Line.objects.all()
+    queryset = Line.objects.prefetch_related('sourceRef')
 
 
 class PolygonView(generics.ListCreateAPIView):
