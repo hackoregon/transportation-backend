@@ -29,4 +29,4 @@ class LineView(generics.ListCreateAPIView):
 class PolygonView(generics.ListCreateAPIView):
     model = Polygon
     serializer_class = PolygonSerializer
-    queryset = Polygon.objects.all()
+    queryset = Polygon.objects.prefetch_related('sourceRef')
