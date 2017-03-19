@@ -6,6 +6,9 @@ from rest_framework.response import Response
 from .serializers import PointSerializer, LineSerializer, PolygonSerializer
 from rest_framework import authentication, permissions
 
+from django.contrib.gis.measure import D
+from django.contrib.gis.geos import GEOSGeometry
+
 # Create your views here.
 
 
