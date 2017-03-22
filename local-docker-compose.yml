@@ -1,0 +1,36 @@
+version: '2.1'
+
+services:
+
+  db:
+    build: ./dbdocker
+    # volumes:
+    #   - ./dbdocker/code:/code
+    networks:
+      - backend
+    healthcheck:
+      test: "exit 0"
+
+  web:
+    environment:
+    - PROJ_SETTINGS_DIR=${PROJ_SETTINGS_DIR}
+    - DEPLOY_TARGET=${DEPLOY_TARGET}
+    - CONFIG_BUCKET=${CONFIG_BUCKET}
+    image: "${DOCKER_IMAGE}"
+    build: ./apidocker
+    command: ./start-api-server.sh
+    #command: ./code/bin/docker-entrypoint.sh
+    volumes:
+      - ./transDjango:/code
+      #- .:/code
+    ports:
+      - "8000:8000"
+    networks:
+      - backend
+    depends_on:
+      db:
+        condition: service_healthy
+
+networks:
+  backend:
+    driver: bridge
