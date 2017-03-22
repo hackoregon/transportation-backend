@@ -6,4 +6,5 @@ cp /code/transDjango/settings_local_example.py /code/transDjango/settings_local.
 ./manage.py jsonToCIPLines
 ./manage.py jsonToCIPPolygons
 #./manage.py runserver
-gunicorn transDjango.wsgi:application -b :8000
+./manage.py runserver 0.0.0.0:8000
+#gunicorn transDjango.wsgi:application -b :8000
