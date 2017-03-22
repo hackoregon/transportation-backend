@@ -1,7 +1,15 @@
-
 settings_local.py
 venv
 ho_db_bak
 *.log
 *.pot
 *.pyc
+project_config.py
+venv3
+.DS_Store
+cover
+static/
+staticfiles/
+env.sh
+myenv.sh
+localtst.sh
