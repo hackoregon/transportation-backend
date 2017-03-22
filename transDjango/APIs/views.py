@@ -6,22 +6,27 @@ from rest_framework.response import Response
 from .serializers import PointSerializer, LineSerializer, PolygonSerializer
 from rest_framework import authentication, permissions
 
+from django.contrib.gis.measure import D
+from django.contrib.gis.geos import GEOSGeometry
+
 # Create your views here.
 
 
 class PointView(generics.ListCreateAPIView):
+
     model = Point
     serializer_class = PointSerializer
-    queryset = Point.objects.all()
+    queryset = Point.objects.prefetch_related('sourceRef')
 
 
 class LineView(generics.ListCreateAPIView):
+
     model = Line
     serializer_class = LineSerializer
-    queryset = Line.objects.all()
+    queryset = Line.objects.prefetch_related('sourceRef')
 
 
 class PolygonView(generics.ListCreateAPIView):
     model = Polygon
     serializer_class = PolygonSerializer
-    queryset = Polygon.objects.all()
+    queryset = Polygon.objects.prefetch_related('sourceRef')

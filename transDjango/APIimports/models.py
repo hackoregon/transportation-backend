@@ -9,10 +9,11 @@ class ApiElement(models.Model):
     payload = pg_fields.JSONField()
     queryTime = models.DateTimeField(default=django.utils.timezone.now)
     url = models.CharField(max_length=2083)
-    name = models.CharField(max_length=2083)
+    apiName = models.CharField(max_length=2083)
+    projectName = models.CharField(max_length=2083)
 
     def __str__(self):
-        return self.name
+        return self.projectName
 
 
 class Point(models.Model):
