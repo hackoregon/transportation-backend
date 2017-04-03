@@ -23,3 +23,5 @@ class PolygonSerializer(LineSerializer):
 
     class Meta(LineSerializer.Meta):
         model = Polygon
+
+
