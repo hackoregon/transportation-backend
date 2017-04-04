@@ -43,6 +43,7 @@ Create the database structure
 ```
 cd transDjango
 ./manage.py migrate
+./manage.py createcachetable
 ```
 
 Download API json files to the database

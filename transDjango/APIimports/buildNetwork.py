@@ -7,36 +7,40 @@ def getAllDateDistances(minDist=14):
 
     collisionGraph = nx.Graph()
     points = Point.objects.prefetch_related('sourceRef')
-    # pnt = GEOSGeometry('POINT(-96.876369 29.905320)', srid=4326)
-    # pointsVsPoints = Point.objects.filter(geom__distance_lte(pnt, D(m=200)))
-    # overlapSet = set()
+    lines = Line.objects.prefetch_related('sourceRef')
+    print('pointslen', len(points))
+    for idx, p1 in enumerate(points):
+        print('idx pvp', idx)
+        for p2 in points[idx+1:]:
+            if not collisionGraph.has_node(p1) or p2 not in collisionGraph.neighbors(p1):
+                addNodes(collisionGraph, p1, p2)
+
     for idx, point in enumerate(points):
-        p1pk = 'point' + str(point.pk)
-        # print('===================')
-        # print(point.dateRange)
+        print('idx pvl', idx)
+        for line in lines:
+            addNodes(collisionGraph, point, line)
 
-        for cPoint in points[idx+1:]:
-            p2pk = 'point' + str(cPoint.pk)
-            if not collisionGraph.has_node(p1pk) or p2pk not in collisionGraph.neighbors(p1pk):
-                addNodes(collisionGraph, point, cPoint, p1pk, p2pk)
-    #print('cg pre', collisionGraph.nodes())
+    for idx, l1 in enumerate(lines):
+        print('idx lvl', idx)
+        for l2 in lines[idx+1:]:
+            if not collisionGraph.has_node(l1) or l2 not in collisionGraph.neighbors(l1):
+                addNodes(collisionGraph, l1, l2)
+
+    print('nodecount', nx.number_of_nodes(collisionGraph))
+    print('edgecount', nx.number_of_edges(collisionGraph))
     cache.set('dateGraph', collisionGraph, None)
-    #print('all caches', caches.all())
-    #myc = caches.all()
-    #print('mydir', dir(myc))
-    cg = cache.get('dateGraph')
-    print('check', cache.get('dateGraph').nodes())
 
-def addNodes(graph, point, cPoint, p1pk, p2pk):
-    ps = point.dateRange.lower
-    pe = point.dateRange.upper
-    cs = cPoint.dateRange.lower
-    ce = cPoint.dateRange.upper
-    if all([ps, pe, cs, ce]):
 
-        distance = (max(ps, cs) - min(pe, ce)).days
+def addNodes(graph, obj1, obj2):
+    obj1s = obj1.dateRange.lower
+    obj1e = obj1.dateRange.upper
+    obj2s = obj2.dateRange.lower
+    obj2e = obj2.dateRange.upper
+    if all([obj1s, obj1e, obj2s, obj2e]):
+
+        distance = (max(obj1s, obj2s) - min(obj1e, obj2e)).days
         if distance < 0:
             distance = 0
         # print('dist=', distance)
-        graph.add_nodes_from([p1pk, p2pk])
-        graph.add_edge(point, cPoint, weight=distance)
+        graph.add_nodes_from([obj1, obj2])
+        graph.add_edge(obj1, obj2, weight=distance)
