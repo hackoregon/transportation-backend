@@ -1,27 +1,13 @@
-from APIimports.models import Point, Line, Polygon, ApiElement
+from APIimports.models import Feature, API_element
 from rest_framework import serializers
 from rest_framework_gis import serializers as gis_serializers
 
 
-class PointSerializer(gis_serializers.GeoFeatureModelSerializer):
-    sourceRef = serializers.StringRelatedField()
-
+class FeatureSerializer(gis_serializers.GeoFeatureModelSerializer):
+    
     class Meta:
-        model = Point
+        model = Feature
         geo_field = 'geom'
-        fields = ['dateRange', 'data', 'sourceRef']
+        fields = ['canonical_daterange', 'data', 'source_name', 'canonical_status']
         abstract = True
-
-
-class LineSerializer(PointSerializer):
-
-    class Meta(PointSerializer.Meta):
-        model = Line
-
-
-class PolygonSerializer(LineSerializer):
-
-    class Meta(LineSerializer.Meta):
-        model = Polygon
-
 

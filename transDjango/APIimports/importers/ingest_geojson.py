@@ -17,7 +17,7 @@ def jsonToPLP(importList):
 
         metadata = constants.API_META[apiName]
 
-        apiModel = models.ApiElement.objects.filter(apiName=apiName)[0]
+        apiModel = models.API_element.objects.filter(api_name=apiName)[0]
         sourceJson = apiModel.payload
         #print(sourceJson)
 
@@ -25,12 +25,14 @@ def jsonToPLP(importList):
         for feature in sourceJson['features']:
             counter += 1
             # print(feature)
-            startFieldName = metadata['startDateField']
-            endFieldName = metadata['endDateField']
-            start = feature['properties'][startFieldName]
-            end = feature['properties'][endFieldName]
-            print(start, end)
-            if end != None and start != None:
+
+            # Make the dateRange from the API specific start and end date fields
+            # startFieldKey = metadata['startDateField']
+            # endFieldKey = metadata['endDateField']
+            start = feature['properties'][metadata['startDateField']]
+            end = feature['properties'][metadata['endDateField']]
+            # print(start, end)
+            if end and start:
                 start = parser.parse(start).date()
                 end = parser.parse(end).date()
                 if end >= start:
@@ -40,21 +42,22 @@ def jsonToPLP(importList):
             else:
                     dateRange = DateRange(lower=None, upper=None)
 
+            # Make the Geometry
             geom = GEOSGeometry(str(feature['geometry']))
-            if geom.geom_type == 'Point':
-                model = getattr(models, 'Point')
-            elif geom.geom_type in ('LineString', 'MultiLineString'):
-                model = getattr(models, 'Line')
-            elif geom.geom_type in ('Polygon', 'MultiPolygon'):
-                model = getattr(models, 'Polygon')
-            else:
+            if geom.geom_type not in ['Point', 'LineString', 'MultiLineString', 'Polygon', 'MultiPolygon']:
                 print("Could not identify geometry type: {}.  Exiting.".format(geom.geom_type))
                 sys.exit()
+            
+            status = feature['properties'][metadata['status']]
 
-            newPoint = model(
+            newPoint = models.Feature(
                 geom=geom,
-                dateRange=dateRange,
-                sourceRef=apiModel,
+                orig_daterange=dateRange,
+                canonical_daterange=dateRange,
+                orig_status=status,
+                canonical_status=status,
+                source_ref=apiModel,
+                source_name=apiModel.source_name,
                 data=feature['properties']
             )
 
