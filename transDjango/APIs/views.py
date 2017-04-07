@@ -19,39 +19,26 @@ class FeatureView(generics.ListCreateAPIView):
     queryset = Feature.objects.all()
 
 
-# class PointView(generics.ListCreateAPIView):
-
-#     model = Point
-#     serializer_class = PointSerializer
-#     queryset = Point.objects.prefetch_related('sourceRef')
-
-
-# class LineView(generics.ListCreateAPIView):
-
-#     model = Line
-#     serializer_class = LineSerializer
-#     queryset = Line.objects.prefetch_related('sourceRef')
-
-
-# class PolygonView(generics.ListCreateAPIView):
-#     model = Polygon
-#     serializer_class = PolygonSerializer
-#     queryset = Polygon.objects.prefetch_related('sourceRef')
-
-
 class ConflictView(generics.ListCreateAPIView):
     serializer_class = FeatureSerializer
 
     def get_queryset(self, minDist=14):
         
         collisionGraph = cache.get('dateGraph')
-        pointset = set()
+        timePointSet = set()
         for u,v,d in collisionGraph.edges(data=True):
             if d['weight'] <= minDist:
                 # print (u, v, d)
                 if d['weight'] < minDist:
-                    pointset = {u, v} | pointset
-                    
-        return pointset
+                    timePointSet = {u, v} | timePointSet
+        
+        pointSet = set()
+        for idx, f in enumerate(timePointSet):
+            print('idx', idx)
+            closeFeat = Feature.objects.filter(geom__distance_lte=(f.geom, D(m=50)))
+            pointSet = set(closeFeat) | pointSet
+
+
+        return pointSet
 
     
