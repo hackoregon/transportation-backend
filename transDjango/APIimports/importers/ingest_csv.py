@@ -18,23 +18,26 @@ with open('../management/commands/datafiles/tidy_geocoder_output.csv', mode='r')
     data = list(reader)
     #data = json.dumps([row for row in reader])
 
-#print(data)
-"""
+
 geojson = {
         'type': 'FeatureCollection',
-        'features': [
-        ]
+        'features' : []
     }
-                        'type': 'Feature',
-                    'properties' : {},
-"""
 
-counter = 0
+
 for feature in data:
-    # TODO: merge from_geojson and to_geojson
+    
+    build_features = {
+        'type' : 'Feature',
+        'properties' : {},
+        'geometry' : {}
+        }
+        
+
+    # Combines 'from_geojson' and 'to_geojson' into single MultiPoint geometry
     feat_geom = {
         'type' : 'MultiPoint', 
-        'coordinates': []
+        'coordinates': [],
     }
             
     # Extract relevant geojson
@@ -45,11 +48,19 @@ for feature in data:
             feat_geom['coordinates'].append(loaded_geojson['coordinates'])
         except:
             continue
+    build_features['geometry'] = feat_geom
+    
+    # Format other CSV columns into valid geojson property attributes
+    metadata_columns = ['source_file_name', 'street', 'addy_from', 'addy_to']
+    for column in metadata_columns:
+        build_features['properties'][column] = feature[column]
+    
+    geojson['features'].append(build_features)
 
-    feature['geometry'] = feat_geom
+print(json.dumps(geojson))
 
-print(json.dumps(data[0]['geometry']))
-
+#with open('test.json', 'w') as f:
+#    json.dump(geojson, f)
 
 
 
