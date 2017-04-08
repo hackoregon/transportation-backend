@@ -1,7 +1,7 @@
 import requests
 import logging
 from APIimports import constants
-from APIimports.models import ApiElement
+from APIimports.models import API_element
 import sys
 
 
@@ -15,7 +15,7 @@ def oneRingToBindThem():
 
         # Prevent duplicates for now.  Later we'll need to be
         # more sophisticated about how we handle repeated downloads
-        if name in list(ApiElement.objects.values_list('apiName', flat=True)):
+        if name in list(API_element.objects.values_list('api_name', flat=True)):
             print("Skipped {} because it's already in the database.".format(name))
             continue
         response = requests.get(metadata['uri'])
@@ -24,11 +24,11 @@ def oneRingToBindThem():
             response.raise_for_status()
             geojson = response.json()
 
-            apiElement = ApiElement(
+            apiElement = API_element(
                 payload=geojson,
                 url=metadata['uri'],
-                apiName=name,
-                projectName=metadata['projectName']
+                api_name=name,
+                source_name=metadata['sourceName']
             )
             apiElement.save()
 

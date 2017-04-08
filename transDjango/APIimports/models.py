@@ -4,34 +4,24 @@ from django.contrib.postgres import fields as pg_fields
 import django.utils.timezone
 
 
-class ApiElement(models.Model):
+class API_element(models.Model):
     # The actual object represented by the api
     payload = pg_fields.JSONField()
-    queryTime = models.DateTimeField(default=django.utils.timezone.now)
+    query_time = models.DateTimeField(default=django.utils.timezone.now)
     url = models.CharField(max_length=2083)
-    apiName = models.CharField(max_length=2083)
-    projectName = models.CharField(max_length=2083)
+    api_name = models.CharField(max_length=2083)
+    source_name = models.CharField(max_length=2083)
 
     def __str__(self):
         return self.projectName
 
 
-class Point(models.Model):
-    geom = models.PointField()
-    dateRange = DateRangeField()
-    sourceRef = models.ForeignKey(ApiElement, default=None)
-    data = models.TextField(default=None)
-
-
-class Line(models.Model):
+class Feature(models.Model):
     geom = models.GeometryField()
-    dateRange = DateRangeField()
-    sourceRef = models.ForeignKey(ApiElement, default=None)
-    data = models.TextField(default=None)
-
-
-class Polygon(models.Model):
-    geom = models.GeometryField()
-    dateRange = DateRangeField()
-    sourceRef = models.ForeignKey(ApiElement, default=None)
+    orig_daterange = DateRangeField()
+    canonical_daterange = DateRangeField()
+    orig_status = models.CharField(max_length=2083)
+    canonical_status = models.CharField(max_length=2083)
+    source_ref = models.ForeignKey(API_element)
+    source_name = models.CharField(max_length=2083)
     data = models.TextField(default=None)
