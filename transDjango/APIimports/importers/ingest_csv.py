@@ -19,37 +19,36 @@ with open('../management/commands/datafiles/tidy_geocoder_output.csv', mode='r')
     #data = json.dumps([row for row in reader])
 
 #print(data)
+"""
+geojson = {
+        'type': 'FeatureCollection',
+        'features': [
+        ]
+    }
+                        'type': 'Feature',
+                    'properties' : {},
+"""
 
 counter = 0
 for feature in data:
     # TODO: merge from_geojson and to_geojson
-
-    fc = {
-        'type': 'FeatureCollection',
-        'features': [
-            {
-            'type' : 'MultiPoint', 
-            'coordinates': []
-            }
-        ]
+    feat_geom = {
+        'type' : 'MultiPoint', 
+        'coordinates': []
     }
-    
+            
     # Extract relevant geojson
-    geojson_list = ['geojson_from', 'geojson_to']
-    for item in geojson_list:
+    coord_column = ['geojson_from', 'geojson_to']
+    for coord in coord_column:
         try:
-            test = json.loads(feature['geojson_from'])
-            print(test)
+            loaded_geojson = json.loads(feature[coord])
+            feat_geom['coordinates'].append(loaded_geojson['coordinates'])
         except:
             continue
-    #print(feature['geojson_from'])
 
-    #fc['features'][0]['coordinates'].append(feature['geojson_from']['coordinates'])
-    #fc['features'][0]['coordinates'].append(feature['geojson_to']['coordinates'])
-    #counter += 1
-    feature['geometry'] = fc
+    feature['geometry'] = feat_geom
 
-#print(data[0]['geometry'])
+print(json.dumps(data[0]['geometry']))
 
 
 
