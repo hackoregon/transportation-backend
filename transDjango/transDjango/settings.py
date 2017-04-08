@@ -11,11 +11,16 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
-from .settings_local import *
+#from .settings_local import *
+
+## imports sensitive settings from file. you need to create this as instructed in README
+from . import project_config
+
+SECRET_KEY = project_config.DJANGO_SECRET_KEY
+ALLOWED_HOSTS = project_config.ALLOWED_HOSTS
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -143,3 +148,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+DATABASES = {
+   'default': {
+       'ENGINE': project_config.AWS['ENGINE'],
+       'NAME': project_config.AWS['NAME'],
+       'HOST': project_config.AWS['HOST'],
+       'PORT': 5432,
+       'USER': project_config.AWS['USER'],
+       'PASSWORD': project_config.AWS['PASSWORD'],
+   },
+}
