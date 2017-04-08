@@ -12,6 +12,7 @@ logger = logging.getLogger(__name__)
 
 def jsonToPLP(importList):
 
+    print ("Start")
 
     for apiName in importList:
 
@@ -24,7 +25,7 @@ def jsonToPLP(importList):
         counter = 0
         for feature in sourceJson['features']:
             counter += 1
-            # print(feature)
+            print(feature)
 
             # Make the dateRange from the API specific start and end date fields
             # startFieldKey = metadata['startDateField']
@@ -47,7 +48,7 @@ def jsonToPLP(importList):
             if geom.geom_type not in ['Point', 'LineString', 'MultiLineString', 'Polygon', 'MultiPolygon']:
                 print("Could not identify geometry type: {}.  Exiting.".format(geom.geom_type))
                 sys.exit()
-            
+
             status = feature['properties'][metadata['status']]
 
             newPoint = models.Feature(
@@ -60,5 +61,5 @@ def jsonToPLP(importList):
                 source_name=apiModel.source_name,
                 data=feature['properties']
             )
-
+            print ("Save")
             newPoint.save()
