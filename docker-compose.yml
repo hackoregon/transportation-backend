@@ -2,14 +2,14 @@ version: '2.1'
 
 services:
 
-  db:
-    build: ./dbdocker
-    # volumes:
-    #   - ./dbdocker/code:/code
-    networks:
-      - backend
-    healthcheck:
-      test: "exit 0"
+  # db:
+  #   build: ./dbdocker
+  #   # volumes:
+  #   #   - ./dbdocker/code:/code
+  #   networks:
+  #     - backend
+  #   healthcheck:
+  #     test: "exit 0"
 
   web:
     build: ./apidocker
@@ -18,12 +18,12 @@ services:
       - ./transDjango:/code
     ports:
       - "8000:8000"
-    networks:
-      - backend
-    depends_on:
-      db:
-        condition: service_healthy
+    # networks:
+    #   - backend
+    # depends_on:
+    #   db:
+    #     condition: service_healthy
 
-networks:
-  backend:
-    driver: bridge
+# networks:
+#   backend:
+#     driver: bridge
