@@ -13,7 +13,7 @@ class API_element(models.Model):
     source_name = models.CharField(max_length=2083)
 
     def __str__(self):
-        return self.projectName
+        return self.source_name
 
 
 class Feature(models.Model):
@@ -25,3 +25,6 @@ class Feature(models.Model):
     source_ref = models.ForeignKey(API_element)
     source_name = models.CharField(max_length=2083)
     data = models.TextField(default=None)
+
+    def __str__(self):
+        return("{} -- {} {} {}".format(self.id, self.source_name, self.canonical_daterange, self.geom))

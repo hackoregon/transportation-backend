@@ -8,6 +8,8 @@ from rest_framework import authentication, permissions
 from django.contrib.gis.measure import D
 from django.contrib.gis.geos import GEOSGeometry
 from django.core.cache import cache
+from django_filters.rest_framework import DjangoFilterBackend
+
 
 # Create your views here.
 
@@ -17,26 +19,8 @@ class FeatureView(generics.ListCreateAPIView):
     model = Feature
     serializer_class = FeatureSerializer
     queryset = Feature.objects.all()
-
-
-# class PointView(generics.ListCreateAPIView):
-
-#     model = Point
-#     serializer_class = PointSerializer
-#     queryset = Point.objects.prefetch_related('sourceRef')
-
-
-# class LineView(generics.ListCreateAPIView):
-
-#     model = Line
-#     serializer_class = LineSerializer
-#     queryset = Line.objects.prefetch_related('sourceRef')
-
-
-# class PolygonView(generics.ListCreateAPIView):
-#     model = Polygon
-#     serializer_class = PolygonSerializer
-#     queryset = Polygon.objects.prefetch_related('sourceRef')
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('source_name',)
 
 
 class ConflictView(generics.ListCreateAPIView):
