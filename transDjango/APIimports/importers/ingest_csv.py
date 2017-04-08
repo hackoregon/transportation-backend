@@ -16,7 +16,7 @@ def csvToGeoJson(importList):
     for apiName in importList:
     
         script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in
-        rel_path = constants_local.API_META[apiName]['uri']
+        rel_path = constants_local.LOCAL_API_META[apiName]['uri']
         abs_file_path = os.path.join(script_dir, rel_path)
         with open(abs_file_path, mode='r') as infile:
             reader = csv.DictReader(infile)
@@ -60,12 +60,12 @@ def csvToGeoJson(importList):
             geojson['features'].append(build_features)
 
         #print(json.dumps(geojson))
-        geojsonLoader(geojson)
+        geojsonLoader(importList, geojson)
 
-def geojsonLoader(converted_geojson):
-    #loads converted geojson into our postgres database.
+def geojsonLoader(passed_importList, converted_geojson):
+    #loads converted csv to geojson data into our postgres database.
  
-    for name, metadata in constants_local.API_META.items():
+    for name, metadata in constants_local.LOCAL_API_META.items():
 
         # Prevent duplicates for now.  Later we'll need to be
         # more sophisticated about how we handle repeated downloads
@@ -82,7 +82,7 @@ def geojsonLoader(converted_geojson):
         apiElement.save()
 
 
-        #jsonToPLP(importList)
+    jsonToPLP(passed_importList, local=True)
 
 
 

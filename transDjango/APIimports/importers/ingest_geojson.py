@@ -3,19 +3,21 @@ from APIimports import models
 from django.contrib.gis.geos import GEOSGeometry
 from dateutil import parser
 import logging
-from APIimports import constants
+from APIimports import constants, constants_local
 import sys
 
 
 logger = logging.getLogger(__name__)
 
 
-def jsonToPLP(importList):
+def jsonToPLP(importList, local=False):
 
 
     for apiName in importList:
-
-        metadata = constants.API_META[apiName]
+        if local == False:
+            metadata = constants.API_META[apiName]
+        if local == True:
+            metadata = constants_local.LOCAL_API_META[apiName]
 
         apiModel = models.API_element.objects.filter(api_name=apiName)[0]
         sourceJson = apiModel.payload
@@ -31,7 +33,7 @@ def jsonToPLP(importList):
             # endFieldKey = metadata['endDateField']
             start = feature['properties'][metadata['startDateField']]
             end = feature['properties'][metadata['endDateField']]
-            # print(start, end)
+            #print(start, end)
             if end and start:
                 start = parser.parse(start).date()
                 end = parser.parse(end).date()
@@ -44,11 +46,14 @@ def jsonToPLP(importList):
 
             # Make the Geometry
             geom = GEOSGeometry(str(feature['geometry']))
-            if geom.geom_type not in ['Point', 'MultiPoint' 'LineString', 'MultiLineString', 'Polygon', 'MultiPolygon']:
+            if geom.geom_type not in ['Point', 'MultiPoint', 'LineString', 'MultiLineString', 'Polygon', 'MultiPolygon']:
                 print("Could not identify geometry type: {}.  Exiting.".format(geom.geom_type))
                 sys.exit()
             
-            status = feature['properties'][metadata['status']]
+            try:
+                status = feature['properties'][metadata['status']]
+            except:
+                status = ''
 
             newPoint = models.Feature(
                 geom=geom,
