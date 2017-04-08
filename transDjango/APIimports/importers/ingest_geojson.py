@@ -44,7 +44,7 @@ def jsonToPLP(importList):
 
             # Make the Geometry
             geom = GEOSGeometry(str(feature['geometry']))
-            if geom.geom_type not in ['Point', 'LineString', 'MultiLineString', 'Polygon', 'MultiPolygon']:
+            if geom.geom_type not in ['Point', 'MultiPoint' 'LineString', 'MultiLineString', 'Polygon', 'MultiPolygon']:
                 print("Could not identify geometry type: {}.  Exiting.".format(geom.geom_type))
                 sys.exit()
             

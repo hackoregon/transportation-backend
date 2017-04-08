@@ -10,7 +10,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         apiList = [
-            'Geocoded Data - Grind and Pave',
+            'Grind and Pave',
         ]
 
         csvToGeoJson(apiList)

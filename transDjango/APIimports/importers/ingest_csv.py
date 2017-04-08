@@ -1,72 +1,93 @@
 """
 Ingest HackOR geocoded data in .csv format to transdev database 
+Needs to parse .csv files to geojson before anything can happen.
 """
-#from APIimports import models
-#from django.contrib.gis.geos import GEOSGeometry
-#import logging
-#from APIimports import constants
-#import sys
+from APIimports.importers.ingest_geojson import jsonToPLP
+from APIimports import constants_local
+from APIimports.models import API_element
 import csv
 import json
 import datetime
 import os
 
-def csvToGeoJson(apiList):
+def csvToGeoJson(importList):
     #TODO: abstract this loading process
     
-    script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in
-    rel_path = '../management/commands/datafiles/grind_pave.csv'
-    abs_file_path = os.path.join(script_dir, rel_path)
-    with open(abs_file_path, mode='r') as infile:
-        reader = csv.DictReader(infile)
-        data = list(reader)
-        #data = json.dumps([row for row in reader])
+    for apiName in importList:
+    
+        script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in
+        rel_path = constants_local.API_META[apiName]['uri']
+        abs_file_path = os.path.join(script_dir, rel_path)
+        with open(abs_file_path, mode='r') as infile:
+            reader = csv.DictReader(infile)
+            data = list(reader)
+            #data = json.dumps([row for row in reader])
 
-    geojson = {
-            'type': 'FeatureCollection',
-            'features' : []
-        }
-
-    for feature in data:
-        
-        build_features = {
-            'type' : 'Feature',
-            'properties' : {},
-            'geometry' : {}
+        geojson = {
+                'type': 'FeatureCollection',
+                'features' : []
             }
-            
-        # Combines 'from_geojson' and 'to_geojson' into single MultiPoint geometry
-        feat_geom = {
-            'type' : 'MultiPoint', 
-            'coordinates': [],
-        }
-                
-        # Extract relevant geojson
-        coord_column = ['geojson_from', 'geojson_to']
-        for coord in coord_column:
-            try:
-                loaded_geojson = json.loads(feature[coord])
-                feat_geom['coordinates'].append(loaded_geojson['coordinates'])
-            except:
-                continue
-        build_features['geometry'] = feat_geom
-        
-        # Format other CSV columns into valid geojson property attributes
-        metadata_columns = ['source_file_name', 'street', 'addy_from', 'addy_to' ,'start', 'end']
-        for column in metadata_columns:
-            build_features['properties'][column] = feature[column]
-        
-        geojson['features'].append(build_features)
 
-    print(json.dumps(geojson))
+        for feature in data:
+            
+            build_features = {
+                'type' : 'Feature',
+                'properties' : {},
+                'geometry' : {}
+                }
+                
+            # Combines 'from_geojson' and 'to_geojson' into single MultiPoint geometry
+            feat_geom = {
+                'type' : 'MultiPoint', 
+                'coordinates': [],
+            }
+                    
+            # Extract relevant geojson
+            coord_column = ['geojson_from', 'geojson_to']
+            for coord in coord_column:
+                try:
+                    loaded_geojson = json.loads(feature[coord])
+                    feat_geom['coordinates'].append(loaded_geojson['coordinates'])
+                except:
+                    continue
+            build_features['geometry'] = feat_geom
+            
+            # Format other CSV columns into valid geojson property attributes
+            metadata_columns = ['source_file_name', 'street', 'addy_from', 'addy_to' ,'start', 'end']
+            for column in metadata_columns:
+                build_features['properties'][column] = feature[column]
+            
+            geojson['features'].append(build_features)
+
+        #print(json.dumps(geojson))
+        geojsonLoader(geojson)
+
+def geojsonLoader(converted_geojson):
+    #loads converted geojson into our postgres database.
+ 
+    for name, metadata in constants_local.API_META.items():
+
+        # Prevent duplicates for now.  Later we'll need to be
+        # more sophisticated about how we handle repeated downloads
+        if name in list(API_element.objects.values_list('api_name', flat=True)):
+            print("Skipped {} because it's already in the database.".format(name))
+            continue
+
+        apiElement = API_element(
+            payload=converted_geojson,
+            url=metadata['uri'],
+            api_name=name,
+            source_name=metadata['sourceName']
+        )
+        apiElement.save()
+
+
+        #jsonToPLP(importList)
+
+
+
 
 #with open('test.json', 'w') as f:
 #    json.dump(geojson, f)
 
 
-#'Geocoded Data - Misc Types': {
-#    'uri': 'https://raw.githubusercontent.com/hackoregon/postgis-geocoder-test/master/Data/tidy_geocoder_output.csv',
-#    'sourceName': 'City of Portland Geocoded Data',
-#    'startDateField': None,
-#    'endDateField': None,
-#    'status': None,
