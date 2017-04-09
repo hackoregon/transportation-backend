@@ -6,7 +6,7 @@ RUN apt-get -y install libgeoip1
 ADD ./requirements.txt /provision/
 WORKDIR /provision/
 RUN pip install -r requirements.txt
-RUN pip install --upgrade --user awscli
+#RUN pip install --upgrade --user awscli
 WORKDIR /code/
 
 #ADD . /code/
