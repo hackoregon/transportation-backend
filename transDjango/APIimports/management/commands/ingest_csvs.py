@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
-from APIimports.importers.ingest_csv import csvToGeoJson
+from APIimports.importers.ingest_convert_csv import csvToGeoJson
 import csv
 import json
 #import datetime
