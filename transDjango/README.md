@@ -54,20 +54,23 @@ Copy data to the main geometry tables that are connected to the API
 
 `./manage.py ingest_jsons`
 
+Convert local CSV data into geojson and load them to the main geometry tables
+
+`./manage.py ingest_csvs`
+
 Run the dev server and see if the API is working
 
 `./manage.py runserver`
 
 API should be available at 
 
-localhost:8000/api/points
-
-localhost:8000/api/lines
+localhost:8000/api/features
 
 ### Current imported data
 
 The ingest_jsons importer will imports Point, Lines and Polygons for CIP and Street Permit city APIs.  The street permit data is being loaded as a place holder for something more interesting/useful.  But it does allow us to provide two different project types to query for on the front end.  
 
+The ingest_csvs importer will import geocoded Point data. For now, this data orginates from Ed's geocoder.  Examine the generated CSV files in APIimports/management/commands/datafiles/ for more detail about how they're formatted. This data is a bit "customized" for now, as they were imported from City-sourced PDFs or Excel spreadsheets, cleaned to work in the geocoder, and cleaned again for the output.  
 
 ### Create Your Own Import Script
 
