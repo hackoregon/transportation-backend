@@ -10,7 +10,7 @@ if [ -z "$TRAVIS_PULL_REQUEST" ] || [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     echo Running docker push command... # Troubleshooting
     docker push "$DOCKER_REPO"/"$DEPLOY_TARGET"/"$DOCKER_IMAGE":latest
     echo Running ecs-deploy.sh script... # Troubleshooting
-    ./$PROJ_SETTINGS_DIR/bin/ecs-deploy.sh  \
+    ./bin/ecs-deploy.sh  \
      -n "$ECS_SERVICE_NAME" \
      -c "$ECS_CLUSTER"   \
      -i "$DOCKER_REPO"/"$DEPLOY_TARGET"/"$DOCKER_IMAGE":latest \
