@@ -25,8 +25,8 @@ services:
     #command: ./start-api-server.sh
     command: /code/bin/docker-entrypoint.sh
     volumes:
-      #- ./transDjango:/code
-      - .:/code
+      - ./transDjango:/code
+      #- .:/code
     ports:
       - "8000:8000"
  #   networks:
