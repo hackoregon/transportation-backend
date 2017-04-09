@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 def jsonToPLP(importList, local=False):
 
-
+    # Distinguish between data downloaded from external API and local data files.
     for apiName in importList:
         if local == False:
             metadata = constants.API_META[apiName]
@@ -43,7 +43,7 @@ def jsonToPLP(importList, local=False):
                     dateRange = DateRange(lower=None, upper=None)
             else:
                     dateRange = DateRange(lower=None, upper=None)
-
+            
             # Make the Geometry
             geom = GEOSGeometry(str(feature['geometry']))
             if geom.geom_type not in ['Point', 'MultiPoint', 'LineString', 'MultiLineString', 'Polygon', 'MultiPolygon']:

@@ -53,7 +53,7 @@ def csvToGeoJson(importList):
             build_features['geometry'] = feat_geom
             
             # Format other CSV columns into valid geojson property attributes
-            metadata_columns = ['source_file_name', 'street', 'addy_from', 'addy_to' ,'start', 'end']
+            metadata_columns = ['source_file_name', 'street', 'addy_from', 'addy_to' ,'start', 'finish']
             for column in metadata_columns:
                 build_features['properties'][column] = feature[column]
             
