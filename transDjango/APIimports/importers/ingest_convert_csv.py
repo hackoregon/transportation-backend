@@ -11,11 +11,10 @@ import datetime
 import os
 
 def csvToGeoJson(importList):
-    #TODO: abstract this loading process
     
     for apiName in importList:
-        print('loading {0}'.format(apiName))
-        script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in
+        #print('loading {0}'.format(apiName))
+        script_dir = os.path.dirname(__file__) 
         rel_path = constants_local.LOCAL_API_META[apiName]['uri']
         abs_file_path = os.path.join(script_dir, rel_path)
         with open(abs_file_path, mode='r') as infile:
@@ -58,14 +57,12 @@ def csvToGeoJson(importList):
             
             geojson['features'].append(build_features)
 
-        #with open('test.json', 'w') as f:
-        #    json.dump(geojson, f)
         geojsonLoader(importList, apiName, geojson)
 
 def geojsonLoader(passed_importList, passed_apiName, converted_geojson):
     #loads converted csv to geojson data into our postgres database.
  
-    print('loading {0} geojson'.format(passed_apiName))
+    #print('loading {0} geojson'.format(passed_apiName))
     for name, metadata in constants_local.LOCAL_API_META.items():
 
         if name == passed_apiName:
@@ -85,14 +82,6 @@ def geojsonLoader(passed_importList, passed_apiName, converted_geojson):
             apiElement.save()
 
             passed_importList = [passed_apiName]
-            print(passed_importList)
+            #print(passed_importList)
 
             jsonToPLP(passed_importList, local=True)
-
-
-
-
-#with open('test.json', 'w') as f:
-#    json.dump(geojson, f)
-
-
