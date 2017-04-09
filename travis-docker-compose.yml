@@ -1,16 +1,40 @@
-version: '2'
+
+version: '2.1'
+
 services:
-  homeless-service:
+
+#  db:
+#    build: ./dbdocker
+#    # volumes:
+#    #   - ./dbdocker/code:/code
+#    networks:
+#      - backend
+#    healthcheck:
+#      test: "exit 0"
+
+  transport-service:
     environment:
     - PROJ_SETTINGS_DIR=${PROJ_SETTINGS_DIR}
     - DEPLOY_TARGET=${DEPLOY_TARGET}
     - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
     - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
     - CONFIG_BUCKET=${CONFIG_BUCKET}
-    build: .
     image: "${DOCKER_REPO}/${DEPLOY_TARGET}/${DOCKER_IMAGE}:latest"
-    command: ./code/bin/docker-entrypoint.sh
+    build: ./apidocker
+    #command: sleep 100
+    #command: ./start-api-server.sh
+    command: /code/bin/docker-entrypoint.sh
     volumes:
+      #- ./transDjango:/code
       - .:/code
     ports:
       - "8000:8000"
+ #   networks:
+ #     - backend
+ #   depends_on:
+ #     db:
+ #       condition: service_healthy
+
+#networks:
+#  backend:
+#    driver: bridge
