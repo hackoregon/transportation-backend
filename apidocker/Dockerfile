@@ -9,5 +9,5 @@ RUN pip install -r requirements.txt
 #RUN pip install --upgrade --user awscli
 WORKDIR /code/
 
-#ADD . /code/
-#POINT [ "/code/bin/docker-entrypoint.sh" ]
+ADD . /code/
+POINT [ "/code/bin/docker-entrypoint.sh" ]
