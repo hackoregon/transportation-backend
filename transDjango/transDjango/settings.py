@@ -159,3 +159,5 @@ DATABASES = {
        'PASSWORD': project_config.AWS['PASSWORD'],
    },
 }
+
+DEBUG=True

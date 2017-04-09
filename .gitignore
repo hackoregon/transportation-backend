@@ -10,6 +10,5 @@ venv3
 cover
 static/
 staticfiles/
-env.sh
 myenv.sh
 localtst.sh

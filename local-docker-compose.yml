@@ -1,6 +1,6 @@
 version: '2'
 services:
-  web:
+  transport-service:
     environment:
     - PROJ_SETTINGS_DIR=${PROJ_SETTINGS_DIR}
     - DEPLOY_TARGET=${DEPLOY_TARGET}
