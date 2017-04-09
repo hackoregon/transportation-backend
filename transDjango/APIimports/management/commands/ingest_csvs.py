@@ -11,6 +11,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         apiList = [
             'Grind and Pave',
+            'Pavement Moratorium'
         ]
 
         csvToGeoJson(apiList)

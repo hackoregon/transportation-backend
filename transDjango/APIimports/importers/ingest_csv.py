@@ -14,14 +14,13 @@ def csvToGeoJson(importList):
     #TODO: abstract this loading process
     
     for apiName in importList:
-    
+        print('loading {0}'.format(apiName))
         script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in
         rel_path = constants_local.LOCAL_API_META[apiName]['uri']
         abs_file_path = os.path.join(script_dir, rel_path)
         with open(abs_file_path, mode='r') as infile:
             reader = csv.DictReader(infile)
             data = list(reader)
-            #data = json.dumps([row for row in reader])
 
         geojson = {
                 'type': 'FeatureCollection',
@@ -59,30 +58,36 @@ def csvToGeoJson(importList):
             
             geojson['features'].append(build_features)
 
-        #print(json.dumps(geojson))
-        geojsonLoader(importList, geojson)
+        #with open('test.json', 'w') as f:
+        #    json.dump(geojson, f)
+        geojsonLoader(importList, apiName, geojson)
 
-def geojsonLoader(passed_importList, converted_geojson):
+def geojsonLoader(passed_importList, passed_apiName, converted_geojson):
     #loads converted csv to geojson data into our postgres database.
  
+    print('loading {0} geojson'.format(passed_apiName))
     for name, metadata in constants_local.LOCAL_API_META.items():
 
-        # Prevent duplicates for now.  Later we'll need to be
-        # more sophisticated about how we handle repeated downloads
-        if name in list(API_element.objects.values_list('api_name', flat=True)):
-            print("Skipped {} because it's already in the database.".format(name))
-            continue
+        if name == passed_apiName:
 
-        apiElement = API_element(
-            payload=converted_geojson,
-            url=metadata['uri'],
-            api_name=name,
-            source_name=metadata['sourceName']
-        )
-        apiElement.save()
+            # Prevent duplicates for now.  Later we'll need to be
+            # more sophisticated about how we handle repeated downloads
+            if name in list(API_element.objects.values_list('api_name', flat=True)):
+                print("Skipped {} because it's already in the database.".format(name))
+                continue
 
+            apiElement = API_element(
+                payload=converted_geojson,
+                url=metadata['uri'],
+                api_name=name,
+                source_name=metadata['sourceName']
+            )
+            apiElement.save()
 
-    jsonToPLP(passed_importList, local=True)
+            passed_importList = [passed_apiName]
+            print(passed_importList)
+
+            jsonToPLP(passed_importList, local=True)
 
 
 
