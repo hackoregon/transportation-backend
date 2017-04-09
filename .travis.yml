@@ -21,4 +21,4 @@ script:
 # - './bin/build-test-proj.sh -t
   - './bin/build-proj.sh -t'
 after_success:
- - ./bin/push.sh
+ - ./bin/docker-push.sh
