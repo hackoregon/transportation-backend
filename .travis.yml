@@ -19,6 +19,6 @@ install:
 #     - sudo mv ./docker-compose /usr/local/bin
 script:
 # - './bin/build-test-proj.sh -t
-  - './bin/build-proj -t'
+  - './bin/build-proj.sh -t'
 after_success:
  - ./bin/push.sh
