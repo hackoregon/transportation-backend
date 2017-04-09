@@ -1,7 +1,9 @@
 sudo: required
 services:
   - docker
+install:
+- pip install --upgrade --user awscli
 script:
-  - './bin/build-test-proj -t'
+  - './bin/build-proj -t'
 after_success:
-  - ./bin/push
+#  - ./bin/push
