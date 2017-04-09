@@ -18,9 +18,7 @@ install:
 #     - chmod +x ./docker-compose
 #     - sudo mv ./docker-compose /usr/local/bin
 script:
-  - docker version
-  - docker-compose version
 # - './bin/build-test-proj.sh -t
   - './bin/build-proj -t'
 after_success:
-#  - ./bin/push.sh
+ - ./bin/push.sh

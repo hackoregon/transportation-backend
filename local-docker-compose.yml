@@ -1,16 +1,5 @@
-version: '2.1'
-
+version: '2'
 services:
-
-  db:
-    build: ./dbdocker
-    # volumes:
-    #   - ./dbdocker/code:/code
-    networks:
-      - backend
-    healthcheck:
-      test: "exit 0"
-
   web:
     environment:
     - PROJ_SETTINGS_DIR=${PROJ_SETTINGS_DIR}
@@ -25,12 +14,3 @@ services:
       #- .:/code
     ports:
       - "8000:8000"
-    networks:
-      - backend
-    depends_on:
-      db:
-        condition: service_healthy
-
-networks:
-  backend:
-    driver: bridge
