@@ -7,8 +7,13 @@ import sys
 
 def buildGraphs():
     
-    f1 = Feature.objects.get(pk=10)
-    f2 = Feature.objects.get(pk=655)
+    f1 = Feature.objects.get(pk=9913)
+    f2 = Feature.objects.get(pk=9914)
+    f3 = Feature.objects.get(pk=9915)
+    for r in Feature.objects.filter(pk__in=[9913, 9914]).annotate(distance=Distance('geom', f3.geom)):
+        print(r.distance)
+    
+    sys.exit()
     print(f1.geom, '\n++++++++++')
     print(f2.geom, '\n=============')
     print(f1.geom.distance(f2.geom))
@@ -30,7 +35,7 @@ def buildGraphs():
     # sys.exit()
         
     featureGraph = nx.Graph()
-    features = Feature.objects.all()
+    features = Feature.objects.exclude(geom='Polygon').all()
     print('featureslen', len(features))
     for idx, f1 in enumerate(features):
         if 'Polygon' in str(f1.geom) or 'POLYGON' in str(f1.geom):
