@@ -7,8 +7,8 @@ services:
     - CONFIG_BUCKET=${CONFIG_BUCKET}
     image: "${DOCKER_IMAGE}"
     build: ./apidocker
-    command: ./start-api-server.sh
-    #command: ./code/bin/docker-entrypoint.sh
+    #command: ./start-api-server.sh
+    command: /code/bin/docker-entrypoint.sh
     volumes:
       - ./transDjango:/code
       #- .:/code
