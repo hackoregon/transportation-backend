@@ -27,8 +27,6 @@ INSTALLED_APPS = [
     'APIimports.apps.ApiimportsConfig',
     'APIs.apps.ApisConfig',
     'corsheaders',
-    # 'grappelli',
-    # 'daterange_filter',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
