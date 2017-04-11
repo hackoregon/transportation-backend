@@ -1,14 +1,13 @@
 #! /bin/bash
-
-# In order to configure your environment for building Docker images, you
-# must source this file in the shell where you will build the image.
-# For example:
-#   $ source ./build_proj/bin/env.sh
-export PROJ_SETTINGS_DIR=transDjango # This sets up access for other scripts to the app's subdirectory
-export DOCKER_IMAGE=transport-service # This is used to identify the service being run by test-proj.sh
-
+# Setup Project Specfics - Make sure env.sh is in the .gitignore and .dockerignore
+export DOCKER_IMAGE=transport-service
+export PROJ_SETTINGS_DIR=transDjango
+export DEPLOY_TARGET=integration # it's always dev on your local machine
+export CONFIG_BUCKET=hacko-transportation-config
 echo "##############################"
-echo  LOCAL CONFIG SETTINGS
+echo  Your Local Project Environement
 echo "##############################"
-echo  PROJ_SETTINGS_DIR $PROJ_SETTINGS_DIR
-echo  DOCKER_IMAGE $DOCKER_IMAGE
+echo DOCKER_IMAGE $DOCKER_IMAGE
+echo PROJ_SETTINGS_DIR $PROJ_SETTINGS_DIR
+echo DEPLOY_TARGET $DEPLOY_TARGET
+echo CONFIG_BUCKET $CONFIG_BUCKET

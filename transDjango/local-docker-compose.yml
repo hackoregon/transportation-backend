@@ -7,7 +7,8 @@ services:
     - CONFIG_BUCKET=${CONFIG_BUCKET}
     image: "${DOCKER_IMAGE}"
     build: ./apidocker
-    command: /code/bin/docker-entrypoint.sh
+    #command: /code/bin/docker-entrypoint.sh
+    command: /code/bin/start-api-server.sh
     volumes:
       - .:/code
     ports:

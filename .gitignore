@@ -12,3 +12,4 @@ static/
 staticfiles/
 myenv.sh
 localtst.sh
+env.sh
