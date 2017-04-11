@@ -66,6 +66,9 @@ API should be available at
 
 localhost:8000/api/features
 
+You can also apply a source_name filter thusly:
+http://localhost:8000/api/features/?source_name=Grind and Pave
+
 ### Current imported data
 
 The ingest_jsons importer will imports Point, Lines and Polygons for CIP and Street Permit city APIs.  The street permit data is being loaded as a place holder for something more interesting/useful.  But it does allow us to provide two different project types to query for on the front end.  
