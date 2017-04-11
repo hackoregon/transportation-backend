@@ -26,16 +26,27 @@ class FeatureView(generics.ListCreateAPIView):
 class ConflictView(generics.ListCreateAPIView):
     serializer_class = FeatureSerializer
 
-    def get_queryset(self, minDist=14):
+    def get_queryset(self, minDays=14, minDist=100):
         
-        collisionGraph = cache.get('dateGraph')
-        pointset = set()
-        for u,v,d in collisionGraph.edges(data=True):
-            if d['weight'] <= minDist:
-                # print (u, v, d)
-                if d['weight'] < minDist:
-                    pointset = {u, v} | pointset
-                    
-        return pointset
+        collisionGraph = cache.get('featureGraph')
+        timePointSet = set()
+        counter = 0
+        for u, v, d in collisionGraph.edges(data=True):
+
+            if d['daysApart'] <= minDist and d['distance'] <= minDist:
+                counter += 1
+                if counter < 6:
+                    print ('u', u.id, u.canonical_daterange)
+                    print ('u data', u.data)
+                    print ('v', v.id, u.canonical_daterange)
+                    print ('v data', v.data)
+                    print ('d', d)
+
+
+                timePointSet = {u, v} | timePointSet
+        
+        print(len(timePointSet))
+
+        return timePointSet
 
     

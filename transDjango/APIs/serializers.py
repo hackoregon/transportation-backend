@@ -8,6 +8,6 @@ class FeatureSerializer(gis_serializers.GeoFeatureModelSerializer):
     class Meta:
         model = Feature
         geo_field = 'geom'
-        fields = ['canonical_daterange', 'data', 'source_name', 'canonical_status']
+        fields = ['id', 'canonical_daterange', 'data', 'source_name', 'canonical_status']
         abstract = True
 
