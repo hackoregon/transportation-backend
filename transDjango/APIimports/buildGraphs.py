@@ -6,58 +6,57 @@ import sys
 
 
 def buildGraphs():
-    
-    f1 = Feature.objects.get(pk=9913)
-    f2 = Feature.objects.get(pk=9914)
-    f3 = Feature.objects.get(pk=9915)
-    for r in Feature.objects.filter(pk__in=[9913, 9914]).annotate(distance=Distance('geom', f3.geom)):
-        print(r.distance)
-    
-    sys.exit()
-    print(f1.geom, '\n++++++++++')
-    print(f2.geom, '\n=============')
-    print(f1.geom.distance(f2.geom))
-    print('\n*************************\n')
-    print(f1.geom.transform(4326, clone=True).distance(f2.geom.transform(4326, clone=True)))
-    print('\n*************************\n')
-    d = Distance(f1.geom, f2.geom)
-    print('\nd=\n', d)
-    print('\n^^^^^^^^^^^^^^^^^^^^^^^^^\n')
-    sys.exit()
 
-    featureGraph = cache.get('featureGraph')    
-    for n in featureGraph.nodes():
-        for n2 in featureGraph[n]:
-            attrib = featureGraph.get_edge_data(n, n2)
-            print('n1id, n2id', n.id, n2.id)
-            print('t, d', attrib['time'], attrib['dist'].m)
-            
-    # sys.exit()
-        
+
     featureGraph = nx.Graph()
-    features = Feature.objects.exclude(geom='Polygon').all()
-    print('featureslen', len(features))
-    for idx, f1 in enumerate(features):
-        if 'Polygon' in str(f1.geom) or 'POLYGON' in str(f1.geom):
-            continue
+    features = Feature.objects.all()
+    polyIDs = [f.id for f in features if 'POLYGON' in str(f.geom).upper()]
+    featuresNoPolys = Feature.objects.exclude(id__in=polyIDs)
+
+    for idx, f1 in enumerate(featuresNoPolys):
         print('idx', idx)
         for f2 in features[idx+1:]:
-            if not featureGraph.has_node(f1) or f2 not in featureGraph.neighbors(f1):
-                addNodes(featureGraph, f1, f2)
-        if idx > 10:
-            break
+            if f1.id == f2.id:
+                continue
+            addNodes(featureGraph, f1, f2)
+            
+        # if idx > 10:
+        #     break
 
     print('nodecount', nx.number_of_nodes(featureGraph))
     print('edgecount', nx.number_of_edges(featureGraph))
-    cache.set('featureGraph', featureGraph, None)
-    # if distance:
-    #     if not time:
-    #         featureGraph = cache.get('featureGraph')
-    #     for f in featureGraph.nodes():
-    #         print('idx', idx)
-    #         closeFeatures = Feature.objects.filter(geom__distance_lte=(f.geom, D(m=50)))
-    #         pointSet = set(closeFeat) | pointSet
 
+    datedFeatureIds = [f.id for f in featureGraph.nodes()]
+    datedFeatures = Feature.objects.filter(pk__in=datedFeatureIds)
+
+    # for e in featureGraph.edges(data=True):
+    #     print(e)
+
+    counter = 0
+    for f1 in datedFeatures:
+
+        connected = featureGraph.neighbors(f1)
+        cids = [f.id for f in connected]
+        # print(cids)
+        connectedFeatures = Feature.objects.filter(pk__in=cids)
+
+        counter += 1
+        print('counter', counter)
+        for f2 in connectedFeatures.annotate(distance=Distance('geom', f1.geom)):
+            # print(f1.id, f2.id)
+            # print(f1.canonical_daterange, f2.canonical_daterange)            
+            featureGraph.add_edge(f1, f2, distance=f2.distance.m)
+
+    print('nodecount', nx.number_of_nodes(featureGraph))
+    print('edgecount', nx.number_of_edges(featureGraph))
+
+    # for e in featureGraph.edges(data=True):
+    #     print(e)
+
+    print('nodecount', nx.number_of_nodes(featureGraph))
+    print('edgecount', nx.number_of_edges(featureGraph))
+
+    cache.set('featureGraph', featureGraph, None)
 
 
 def addNodes(graph, obj1, obj2):
@@ -72,5 +71,8 @@ def addNodes(graph, obj1, obj2):
             dayDist = 0
         # print('dist=', distance)
         graph.add_nodes_from([obj1, obj2])
-        graph.add_edge(obj1, obj2, time=dayDist)
+        graph.add_edge(obj1, obj2, daysApart=dayDist)
+        return True
+    else: 
+        return False
 

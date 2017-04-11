@@ -25,3 +25,6 @@ class Feature(models.Model):
     source_ref = models.ForeignKey(API_element)
     source_name = models.CharField(max_length=2083)
     data = models.TextField(default=None)
+
+    def __str__(self):
+        return str(self.id)
