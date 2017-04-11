@@ -3,7 +3,7 @@
 # Tag, Push and Deploy only if it's not a pull request
 if [ -z "$TRAVIS_PULL_REQUEST" ] || [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
   # Push only if we're testing the master branch
-  if [ "$TRAVIS_BRANCH" == "migratedb" ]; then
+  if [ "$TRAVIS_BRANCH" == "refactorDocker" ]; then
     export PATH=$PATH:$HOME/.local/bin
     echo Getting the ECR login... # Troubleshooting
     eval $(aws ecr get-login --region $AWS_DEFAULT_REGION)
