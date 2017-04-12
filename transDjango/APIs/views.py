@@ -9,7 +9,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 # Create your views here.
 
 
-class FeatureView(generics.ListCreateAPIView):
+class FeatureView(generics.ListAPIView):
 
     model = Feature
     serializer_class = FeatureSerializer
@@ -18,7 +18,7 @@ class FeatureView(generics.ListCreateAPIView):
     filter_fields = ('source_name',)
 
 
-class ConflictView(generics.ListCreateAPIView):
+class ConflictView(generics.ListAPIView):
     serializer_class = FeatureSerializer
 
     def get_queryset(self):
