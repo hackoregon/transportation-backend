@@ -65,15 +65,19 @@ Run the dev server and see if the API is working
 ### Sample APIs
 
 All Features
+
 `localhost:8000/api/features`
 
 Features can be filtered by source name
+
 `localhost:8000/api/features?source_name=Grind and Pave`
 
 Conflict data can be used with or without minimum date(days) and distance(meters) query params.  Default is 14 days and 100 meters.
+
 `localhost:8000/api/conflicts?days=7&distance=200`
 
 A address can be provided to find nearby projects.  Required query params are 'address' and 'date'.  Optional params are 'days' and 'distance'.
+
 `localhost:8000/api/nearby?address=321%20NW%20Glisan%20Ave,%20Portland,%20OR&date=2016-03-03&distance=500&days=20`
 
 ### Current imported data
