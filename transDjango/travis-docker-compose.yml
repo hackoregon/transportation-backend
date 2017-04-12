@@ -9,8 +9,8 @@ services:
     - CONFIG_BUCKET=${CONFIG_BUCKET}
     image: "${DOCKER_REPO}/${DEPLOY_TARGET}/${DOCKER_IMAGE}:latest"
     build: ./apidocker
-    #command: /code/bin/docker-entrypoint.sh
-    command: /code/bin/start-api-server.sh
+    command: /code/bin/docker-entrypoint.sh
+    # command: /code/bin/start-api-server.sh
     volumes:
       - .:/code
     ports:
