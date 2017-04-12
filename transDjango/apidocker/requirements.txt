@@ -8,6 +8,7 @@ python-dateutil==2.6.0
 requests==2.13.0
 six==1.10.0
 gunicorn
+gevent
 
 # find out which ones of these are needed
 #appdirs==1.4.0
