@@ -16,12 +16,14 @@ import sys
 
 
 class FeatureView(generics.ListAPIView):
-
-    model = Feature
     serializer_class = FeatureSerializer
     queryset = Feature.objects.all()
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('source_name',)
+
+class FeatureDetailView(generics.RetrieveAPIView):
+    queryset = Feature.objects.all()
+    serializer_class = FeatureSerializer
 
 
 class ConflictView(generics.ListAPIView):

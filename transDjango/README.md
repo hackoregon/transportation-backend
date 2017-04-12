@@ -68,6 +68,10 @@ All Features
 
 `localhost:8000/api/features`
 
+Single Features
+
+`localhost:8000/api/features/1`
+
 Features can be filtered by source name
 
 `localhost:8000/api/features?source_name=Grind and Pave`
