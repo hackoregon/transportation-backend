@@ -27,6 +27,9 @@ def csvToGeoJson(importList):
             }
 
         for feature in data:
+            #assign a unique project_id using street, addy_from, addy_to
+            proj_id = feature['street'] + feature['addy_from'] + feature['addy_to']
+            proj_id = proj_id.replace(' ', '').replace(',', '')
             
             build_features = {
                 'type' : 'Feature',
@@ -51,9 +54,12 @@ def csvToGeoJson(importList):
             build_features['geometry'] = feat_geom
             
             # Format other CSV columns into valid geojson property attributes
-            metadata_columns = ['source_file_name', 'street', 'addy_from', 'addy_to' ,'start', 'finish']
+            metadata_columns = ['proj_id', 'source_file_name', 'street', 'addy_from', 'addy_to' ,'start', 'finish']
             for column in metadata_columns:
-                build_features['properties'][column] = feature[column]
+                if column == 'proj_id':
+                    build_features['properties'][column] = proj_id
+                else:
+                    build_features['properties'][column] = feature[column]
             
             geojson['features'].append(build_features)
 
