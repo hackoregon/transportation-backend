@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from APIimports.models import Feature
+from APIimports.models import Feature, AddressGeocode
 from django.core.cache import cache, caches
 import networkx as nx
 from django.contrib.gis.db.models.functions import Distance
@@ -12,6 +12,13 @@ class Command(BaseCommand):
     help = 'Pre-build as much as possible for the conflict views'
 
     def handle(self, *args, **options):
+
+        address = '1211 SW 5th Ave, Portland, OR'
+        #addresses = AddressGeocode.objects.using('geocoder').raw("SELECT g.rating, ST_X(g.geomout) As lon, ST_Y(g.geomout) As lat, (addy).address As stno, (addy).streetname As street, (addy).streettypeabbrev As styp, (addy).location As city, (addy).stateabbrev As st,(addy).zip FROM geocode(%s) As g;", [address])
+        geoaddy = AddressGeocode.objects.using('geocoder').raw("SELECT g.rating, ST_X(g.geomout) AS lon, ST_Y(g.geomout) AS lat, pprint_addy(addy) AS address FROM geocode(%s) as g LIMIT 1", [address])[0]
+        print(geoaddy.address)
+        # for obj in geoaddy:
+        #     print('{o.rating} {o.lat} {o.lon} {o.address}'.format(o=obj))
         
         # f1 = Feature.objects.get(pk=1)
         # f2 = Feature.objects.get(pk=2)
@@ -35,55 +42,55 @@ class Command(BaseCommand):
         # sys.exit()
 
 
-        featureGraph = nx.Graph()
-        features = Feature.objects.all()
-        polyIDs = [f.id for f in features if 'POLYGON' in str(f.geom).upper()]
-        featuresNoPolys = Feature.objects.exclude(id__in=polyIDs)
+        # featureGraph = nx.Graph()
+        # features = Feature.objects.all()
+        # polyIDs = [f.id for f in features if 'POLYGON' in str(f.geom).upper()]
+        # featuresNoPolys = Feature.objects.exclude(id__in=polyIDs)
 
-        stopper = 0
-        for idx, f1 in enumerate(featuresNoPolys):
-            print('idx', idx)
-            for f2 in features[idx+1:]:
-                success = addNodes(featureGraph, f1, f2)
-                if success:
-                    stopper += 1
-                if stopper > 5:
-                    break
-            if idx > 10:
-                break
+        # stopper = 0
+        # for idx, f1 in enumerate(featuresNoPolys):
+        #     print('idx', idx)
+        #     for f2 in features[idx+1:]:
+        #         success = addNodes(featureGraph, f1, f2)
+        #         if success:
+        #             stopper += 1
+        #         if stopper > 5:
+        #             break
+        #     if idx > 10:
+        #         break
     
-        print('nodecount', nx.number_of_nodes(featureGraph))
-        print('edgecount', nx.number_of_edges(featureGraph))
+        # print('nodecount', nx.number_of_nodes(featureGraph))
+        # print('edgecount', nx.number_of_edges(featureGraph))
 
-        datedFeatureIds = [f.id for f in featureGraph.nodes()]
-        datedFeatures = Feature.objects.filter(pk__in=datedFeatureIds)
+        # datedFeatureIds = [f.id for f in featureGraph.nodes()]
+        # datedFeatures = Feature.objects.filter(pk__in=datedFeatureIds)
 
-        for e in featureGraph.edges(data=True):
-            print(e)
+        # for e in featureGraph.edges(data=True):
+        #     print(e)
         
         
-        counter = 0
-        fset = set()
-        for f1 in featureGraph.nodes():
-            counter += 1
-            print('counter', counter)
-            for f2 in datedFeatures.exclude(pk=f1.id).annotate(distance=Distance('geom', f1.geom)):
-                # print(f1.id, f2.id)
-                # print(f1.canonical_daterange, f2.canonical_daterange)
-                if featureGraph.has_edge(f1, f2):
-                    featureGraph.add_edge(f1, f2, distance=f2.distance.m)
+        # counter = 0
+        # fset = set()
+        # for f1 in featureGraph.nodes():
+        #     counter += 1
+        #     print('counter', counter)
+        #     for f2 in datedFeatures.exclude(pk=f1.id).annotate(distance=Distance('geom', f1.geom)):
+        #         # print(f1.id, f2.id)
+        #         # print(f1.canonical_daterange, f2.canonical_daterange)
+        #         if featureGraph.has_edge(f1, f2):
+        #             featureGraph.add_edge(f1, f2, distance=f2.distance.m)
 
                 
-        print('nodecount', nx.number_of_nodes(featureGraph))
-        print('edgecount', nx.number_of_edges(featureGraph))
+        # print('nodecount', nx.number_of_nodes(featureGraph))
+        # print('edgecount', nx.number_of_edges(featureGraph))
 
-        for e in featureGraph.edges(data=True):
-            print(e)
+        # for e in featureGraph.edges(data=True):
+        #     print(e)
 
-        print('nodecount', nx.number_of_nodes(featureGraph))
-        print('edgecount', nx.number_of_edges(featureGraph))
+        # print('nodecount', nx.number_of_nodes(featureGraph))
+        # print('edgecount', nx.number_of_edges(featureGraph))
 
-        sys.exit()
+        # sys.exit()
 
         # sys.exit()
         # print(f1.geom, '\n++++++++++')
@@ -110,19 +117,19 @@ class Command(BaseCommand):
                 
         # sys.exit()
         
-        features = Feature.objects.all()
-        polyCount = 0        
-        for idx, f1 in enumerate(features):
-            if 'Polygon' in str(f1.geom) or 'POLYGON' in str(f1.geom):
-                polyCount += 1
-            #print(f1.geom)
-            # if 'Polygon' in str(f1.geom) or 'POLYGON' in str(f1.geom):
-            #     continue
-            # print('idx', idx)
-            # for f2 in features[idx+1:]:
+        # features = Feature.objects.all()
+        # polyCount = 0        
+        # for idx, f1 in enumerate(features):
+        #     if 'Polygon' in str(f1.geom) or 'POLYGON' in str(f1.geom):
+        #         polyCount += 1
+        #     #print(f1.geom)
+        #     # if 'Polygon' in str(f1.geom) or 'POLYGON' in str(f1.geom):
+        #     #     continue
+        #     # print('idx', idx)
+        #     # for f2 in features[idx+1:]:
                 
-            #     # if not featureGraph.has_node(f1) or f2 not in featureGraph.neighbors(f1):
-            #     #     addNodes(featureGraph, f1, f2)
-            # if idx > 10:
-            #     break
-        print('polycount', polyCount)
+        #     #     # if not featureGraph.has_node(f1) or f2 not in featureGraph.neighbors(f1):
+        #     #     #     addNodes(featureGraph, f1, f2)
+        #     # if idx > 10:
+        #     #     break
+        # print('polycount', polyCount)

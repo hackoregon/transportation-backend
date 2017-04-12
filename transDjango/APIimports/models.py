@@ -28,3 +28,13 @@ class Feature(models.Model):
 
     def __str__(self):
         return("{} -- {} {} {}".format(self.id, self.source_name, self.canonical_daterange, self.geom))
+
+
+class AddressGeocode(models.Model):
+    rating = models.IntegerField(primary_key=True)
+    lon = models.DecimalField(max_digits=13, decimal_places=10)
+    lat = models.DecimalField(max_digits=13, decimal_places=10)
+    addy = models.CharField(max_length=2083)
+
+    class Meta:
+        managed = False
