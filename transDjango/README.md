@@ -58,6 +58,10 @@ Convert local CSV data into geojson and load them to the main geometry tables
 
 `./manage.py ingest_csvs`
 
+Load local geojson data (converted from City of Portland shapefiles). Warning: BIG FILE!
+
+`./manage.py ingest_local_jsons`
+
 Run the dev server and see if the API is working
 
 `./manage.py runserver`
@@ -89,6 +93,8 @@ A address can be provided to find nearby projects.  Required query params are 'a
 The ingest_jsons importer will imports Point, Lines and Polygons for CIP and Street Permit city APIs.  The street permit data is being loaded as a place holder for something more interesting/useful.  But it does allow us to provide two different project types to query for on the front end.  
 
 The ingest_csvs importer will import geocoded Point data. For now, this data orginates from Ed's geocoder.  Examine the generated CSV files in APIimports/management/commands/datafiles/ for more detail about how they're formatted. This data is a bit "customized" for now, as they were imported from City-sourced PDFs or Excel spreadsheets, cleaned to work in the geocoder, and cleaned again for the output.  
+
+The ingest_local_jsons will load geojson that was converted from City of Portland shapefiles in QGIS. For now, ingest_local_jsons will only ingest valid geojson files.
 
 ### Create Your Own Import Script
 
