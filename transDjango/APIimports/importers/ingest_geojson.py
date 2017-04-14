@@ -3,21 +3,23 @@ from APIimports import models
 from django.contrib.gis.geos import GEOSGeometry
 from dateutil import parser
 import logging
-from APIimports import constants, constants_local
+from APIimports import constants
 import sys
 
 
 logger = logging.getLogger(__name__)
 
 
-def jsonToPLP(importList, local=False):
+def jsonToPLP(importList, meta='API_META'):
 
     # Distinguish between data downloaded from external API and local data files.
     for apiName in importList:
-        if local == False:
+        if meta == 'API_META':
             metadata = constants.API_META[apiName]
-        if local == True:
-            metadata = constants_local.LOCAL_API_META[apiName]
+        if meta == 'CSV_META':
+            metadata = constants.CSV_META[apiName]
+        if meta == 'GEOJSON_META':
+            metadata = constants.GEOJSON_META[apiName]            
 
         apiModel = models.API_element.objects.filter(api_name=apiName)[0]
         sourceJson = apiModel.payload

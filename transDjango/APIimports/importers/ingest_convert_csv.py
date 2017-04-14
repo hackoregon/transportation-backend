@@ -3,7 +3,7 @@ Ingest HackOR geocoded data in .csv format to transdev database
 Needs to parse .csv files to geojson before anything can happen.
 """
 from APIimports.importers.ingest_geojson import jsonToPLP
-from APIimports import constants_local
+from APIimports import constants
 from APIimports.models import API_element
 import csv
 import json
@@ -15,7 +15,7 @@ def csvToGeoJson(importList):
     for apiName in importList:
         #print('loading {0}'.format(apiName))
         script_dir = os.path.dirname(__file__) 
-        rel_path = constants_local.LOCAL_API_META[apiName]['uri']
+        rel_path = constants.CSV_META[apiName]['uri']
         abs_file_path = os.path.join(script_dir, rel_path)
         with open(abs_file_path, mode='r') as infile:
             reader = csv.DictReader(infile)
@@ -69,7 +69,7 @@ def geojsonLoader(passed_importList, passed_apiName, converted_geojson):
     #loads converted csv to geojson data into our postgres database.
  
     #print('loading {0} geojson'.format(passed_apiName))
-    for name, metadata in constants_local.LOCAL_API_META.items():
+    for name, metadata in constants.CSV_META.items():
 
         if name == passed_apiName:
 
@@ -90,4 +90,4 @@ def geojsonLoader(passed_importList, passed_apiName, converted_geojson):
             passed_importList = [passed_apiName]
             #print(passed_importList)
 
-            jsonToPLP(passed_importList, local=True)
+            jsonToPLP(passed_importList, meta='CSV_META')

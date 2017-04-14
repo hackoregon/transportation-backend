@@ -1,5 +1,3 @@
-
-
 API_META = {
     'Capital Improv. Project - Points': {
         'uri': 'http://gis.pdx.opendata.arcgis.com/datasets/93ed0b190bc6441fad1e48871b4c58d2_43.geojson',
@@ -42,5 +40,32 @@ API_META = {
         'startDateField': 'COCDate',
         'endDateField': 'COCDate',
         'status': 'Status',
+    },
+}
+
+CSV_META = {
+
+    'Grind and Pave': {
+        'uri': '../management/commands/datafiles/grind_pave.csv',
+        'sourceName': 'Grind and Pave',
+        'startDateField': 'start',
+        'endDateField': 'finish',
+    },
+    'Pavement Moratorium': {
+        'uri': '../management/commands/datafiles/pavement_moratorium.csv',
+        'sourceName': 'Pavement Moratorium',
+        'startDateField': 'start',
+        'endDateField': 'finish',
+    },
+}
+
+GEOJSON_META = {
+
+    'ROW Closures': {
+        'uri': '../management/commands/datafiles/ROWClosures_02012017.geojson',
+        'sourceName': 'ROW Closures',
+        'startDateField': 'ClosureS_1',
+        'endDateField': 'ClosureEnd',
+        'status': 'ClosureSta'
     },
 }
