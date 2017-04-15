@@ -2,6 +2,8 @@ from django.conf.urls import url
 
 from . import views
 
+schema_view = get_swagger_view(title='Team Transportation API')
+
 urlpatterns = [
     url(r'^$', schema_view),
     url(r'^features/$', views.FeatureView.as_view(), name='features'),
