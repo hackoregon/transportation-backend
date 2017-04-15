@@ -17,6 +17,8 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from rest_framework import routers
 from APIs import views
+# This import is necessary to enable Swagger styling to work when the app runs in Docker container
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 # router = routers.DefaultRouter()
 # router.register(r'points', views.PointViewSet)
@@ -26,3 +28,6 @@ urlpatterns = [
     url(r'^api/', include('APIs.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
+
+# This statement is necessary to enable Swagger styling to work when the app runs in Docker container
+urlpatterns += staticfiles_urlpatterns()
