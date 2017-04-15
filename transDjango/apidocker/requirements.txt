@@ -8,7 +8,12 @@ python-dateutil==2.6.0
 requests==2.13.0
 six==1.10.0
 gunicorn
-gevent
+gevent==1.2.1
+decorator==4.0.11
+django-filter==1.0.2
+geopy==1.11.0
+networkx==1.11
+
 
 # find out which ones of these are needed
 #appdirs==1.4.0
@@ -19,4 +24,3 @@ gevent
 #pyparsing==2.1.10
 #query-string==0.0.0
 #setupfiles==0.0.0
-
