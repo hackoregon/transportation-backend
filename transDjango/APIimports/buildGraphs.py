@@ -1,7 +1,8 @@
-from .models import Feature
+from .models import Feature, API_element
 from django.core.cache import cache, caches
 import networkx as nx
 from django.contrib.gis.db.models.functions import Distance
+from .constants import API_META, CSV_META, GEOJSON_META
 import sys
 
 
@@ -9,6 +10,25 @@ def buildGraphs():
 
 
     featureGraph = nx.Graph()
+
+    
+    conflictSourceIDs = []
+
+    z = API_element.objects.values_list('api_name')
+    print(z)
+    sourceNames = list(API_META.keys()) + list(CSV_META.keys()) + list(GEOJSON_META.keys())
+    sourceDict = {}
+    sourceDict.update(API_META)
+    sourceDict.update(CSV_META)
+    sourceDict.update(GEOJSON_META)
+    for sourceName in sourceDict:
+        if sourceDict[sourceName]['forConflict']:
+            conflictSourceIDs.append(API_element.objects.get(api_name=sourceName).id)
+            
+
+    print('\n'.join(conflictSourceIDs))
+    sys.exit()
+
     features = Feature.objects.all()
     polyIDs = [f.id for f in features if 'POLYGON' in str(f.geom).upper()]
     featuresNoPolys = Feature.objects.exclude(id__in=polyIDs)
