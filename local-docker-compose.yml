@@ -6,10 +6,10 @@ services:
     - DEPLOY_TARGET=${DEPLOY_TARGET}
     - CONFIG_BUCKET=${CONFIG_BUCKET}
     image: "${DOCKER_IMAGE}"
-    build: ./apidocker
+    build: ./transDjango/apidocker
     # command: /code/bin/docker-entrypoint.sh
     # command: /code/bin/start-api-server.sh
     volumes:
-      - .:/code
+      - ./transDjango:/code
     ports:
       - "8000:8000"

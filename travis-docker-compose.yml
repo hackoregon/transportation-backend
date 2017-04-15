@@ -8,10 +8,10 @@ services:
     - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
     - CONFIG_BUCKET=${CONFIG_BUCKET}
     image: "${DOCKER_REPO}/${DEPLOY_TARGET}/${DOCKER_IMAGE}:latest"
-    build: ./apidocker
+    build: ./transDjango/apidocker
     # command: /code/bin/docker-entrypoint.sh
     # command: /code/bin/start-api-server.sh
     volumes:
-      - .:/code
+      - ./transDjango:/code
     ports:
       - "8000:8000"
