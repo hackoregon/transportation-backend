@@ -3,8 +3,8 @@ ENV PYTHONUNBUFFERED 1
 RUN apt-get update
 RUN apt-get -y install gdal-bin
 RUN apt-get -y install libgeoip1
-# ADD ./requirements.txt /provision/
 WORKDIR /code/
-ADD . /code/
+ADD requirements.txt /code/
 RUN pip install -r requirements.txt
+ADD . /code/
 ENTRYPOINT [ "/code/docker-entrypoint.sh" ]

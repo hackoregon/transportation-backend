@@ -2,7 +2,7 @@
 # Setup Project Specfics - Make sure env.sh is in the .gitignore and .dockerignore
 export DOCKER_IMAGE=transport-service
 export PROJ_SETTINGS_DIR=transDjango
-export DEPLOY_TARGET=integration # it's always dev on your local machine
+export DEPLOY_TARGET=dev # it's always dev on your local machine
 export CONFIG_BUCKET=hacko-transportation-config
 echo "##############################"
 echo  Your Local Project Environement
