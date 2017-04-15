@@ -4,7 +4,7 @@ echo  "Running docker-entrypoint.sh... from transDjango/bin"
 # python manage.py migrate --noinput
 
 ./getconfig.sh
-
+python manage.py migrate --noinput
 python manage.py collectstatic --noinput
 # gunicorn transDjango.wsgi:application -b :8000
 
