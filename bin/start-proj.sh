@@ -4,8 +4,7 @@ usage() { echo "Usage: $0 [-l] for a local build or [-t] for a travis build " 1>
 while getopts ":lt" opt; do
     case "$opt" in
         l)
-          cd ./transDjango
-          docker-compose -f ./local-docker-compose.yml up
+          docker-compose -f ./transDjango/local-docker-compose.yml up
           ;;
         t)
           docker-compose -f ./transDjango/travis-docker-compose.yml up
