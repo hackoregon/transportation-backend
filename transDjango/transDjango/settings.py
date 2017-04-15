@@ -159,10 +159,18 @@ DATABASES = {
        'ENGINE': project_config.AWS['ENGINE'],
        'NAME': project_config.AWS['NAME'],
        'HOST': project_config.AWS['HOST'],
-       'PORT': 5432,
+       'PORT': project_config.AWS['PORT'],,
        'USER': project_config.AWS['USER'],
        'PASSWORD': project_config.AWS['PASSWORD'],
    },
+    'geocoder': {
+        'ENGINE': project_config.GEOCODER['ENGINE'],
+        'NAME': project_config.GEOCODER['NAME'],
+        'USER': project_config.GEOCODER['USER'],
+        'PASSWORD': project_config.GEOCODER['PASSWORD'],
+        'HOST': project_config.GEOCODER['HOST'],
+        'PORT': project_config.GEOCODER['PORT'],
+    }
 }
 
 DEBUG=True
