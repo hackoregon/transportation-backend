@@ -10,13 +10,16 @@ import sys
 logger = logging.getLogger(__name__)
 
 
-def jsonToPLP(importList):
+def jsonToPLP(importList, meta='API_META'):
 
-    print ("Start")
-
+    # Distinguish between data downloaded from external API and local data files.
     for apiName in importList:
-
-        metadata = constants.API_META[apiName]
+        if meta == 'API_META':
+            metadata = constants.API_META[apiName]
+        if meta == 'CSV_META':
+            metadata = constants.CSV_META[apiName]
+        if meta == 'GEOJSON_META':
+            metadata = constants.GEOJSON_META[apiName]            
 
         apiModel = models.API_element.objects.filter(api_name=apiName)[0]
         sourceJson = apiModel.payload
@@ -32,7 +35,7 @@ def jsonToPLP(importList):
             # endFieldKey = metadata['endDateField']
             start = feature['properties'][metadata['startDateField']]
             end = feature['properties'][metadata['endDateField']]
-            # print(start, end)
+            #print(start, end)
             if end and start:
                 start = parser.parse(start).date()
                 end = parser.parse(end).date()
@@ -42,14 +45,17 @@ def jsonToPLP(importList):
                     dateRange = DateRange(lower=None, upper=None)
             else:
                     dateRange = DateRange(lower=None, upper=None)
-
+            
             # Make the Geometry
             geom = GEOSGeometry(str(feature['geometry']))
-            if geom.geom_type not in ['Point', 'LineString', 'MultiLineString', 'Polygon', 'MultiPolygon']:
+            if geom.geom_type not in ['Point', 'MultiPoint', 'LineString', 'MultiLineString', 'Polygon', 'MultiPolygon']:
                 print("Could not identify geometry type: {}.  Exiting.".format(geom.geom_type))
                 sys.exit()
 
-            status = feature['properties'][metadata['status']]
+            try:
+                status = feature['properties'][metadata['status']]
+            except:
+                status = ''
 
             newPoint = models.Feature(
                 geom=geom,

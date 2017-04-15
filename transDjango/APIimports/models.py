@@ -13,15 +13,28 @@ class API_element(models.Model):
     source_name = models.CharField(max_length=2083)
 
     def __str__(self):
-        return self.projectName
+        return self.source_name
 
 
 class Feature(models.Model):
     geom = models.GeometryField()
     orig_daterange = DateRangeField()
     canonical_daterange = DateRangeField()
-    orig_status = models.CharField(max_length=2083)
-    canonical_status = models.CharField(max_length=2083)
+    orig_status = models.CharField(max_length=2083, null=True, default='')
+    canonical_status = models.CharField(max_length=2083, null=True, default='')
     source_ref = models.ForeignKey(API_element)
     source_name = models.CharField(max_length=2083)
     data = models.TextField(default=None)
+
+    def __str__(self):
+        return("{} -- {} {} {}".format(self.id, self.source_name, self.canonical_daterange, self.geom))
+
+
+class AddressGeocode(models.Model):
+    rating = models.IntegerField(primary_key=True)
+    lon = models.DecimalField(max_digits=13, decimal_places=10)
+    lat = models.DecimalField(max_digits=13, decimal_places=10)
+    addy = models.CharField(max_length=2083)
+
+    class Meta:
+        managed = False

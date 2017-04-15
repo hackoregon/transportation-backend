@@ -23,6 +23,6 @@ from APIs import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^transport/', include('APIs.urls')),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^api/', include('APIs.urls')),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
