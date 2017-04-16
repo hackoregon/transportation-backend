@@ -169,12 +169,12 @@ STATIC_ROOT = 'staticfiles'
 
 DATABASES = {
    'default': {
-       'ENGINE': project_config.AWS['ENGINE'],
-       'NAME': project_config.AWS['NAME'],
-       'HOST': project_config.AWS['HOST'],
-       'PORT': project_config.AWS['PORT'],
-       'USER': project_config.AWS['USER'],
-       'PASSWORD': project_config.AWS['PASSWORD'],
+       'ENGINE': project_config.DEFAULT['ENGINE'],
+       'NAME': project_config.DEFAULT['NAME'],
+       'HOST': project_config.DEFAULT['HOST'],
+       'PORT': project_config.DEFAULT['PORT'],
+       'USER': project_config.DEFAULT['USER'],
+       'PASSWORD': project_config.DEFAULT['PASSWORD'],
    },
     'geocoder': {
         'ENGINE': project_config.GEOCODER['ENGINE'],
@@ -186,4 +186,4 @@ DATABASES = {
     }
 }
 
-DEBUG=True
+DEBUG = project_config.DEBUG
