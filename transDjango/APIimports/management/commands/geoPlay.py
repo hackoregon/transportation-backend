@@ -5,6 +5,7 @@ import networkx as nx
 from django.contrib.gis.db.models.functions import Distance
 import sys
 from APIimports.buildGraphs import addNodes
+from APIimports import models
 
 
 
@@ -13,11 +14,16 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        address = '1211 SW 5th Ave, Portland, OR'
-        #addresses = AddressGeocode.objects.using('geocoder').raw("SELECT g.rating, ST_X(g.geomout) As lon, ST_Y(g.geomout) As lat, (addy).address As stno, (addy).streetname As street, (addy).streettypeabbrev As styp, (addy).location As city, (addy).stateabbrev As st,(addy).zip FROM geocode(%s) As g;", [address])
-        geoaddy = AddressGeocode.objects.using('geocoder').raw("SELECT g.rating, ST_X(g.geomout) AS lon, ST_Y(g.geomout) AS lat, pprint_addy(addy) AS address FROM geocode(%s) as g LIMIT 1", [address])[0]
-        print(geoaddy.address)
-        # for obj in geoaddy:
+        for n in models.Neighborhood.objects.all():
+            adjacents = models.Neighborhood.objects.filter(geom__touches=n.geom)
+            print(n.name, '----', list(adjacents.values('name')))
+
+
+        # address = '1211 SW 5th Ave, Portland, OR'
+        # #addresses = AddressGeocode.objects.using('geocoder').raw("SELECT g.rating, ST_X(g.geomout) As lon, ST_Y(g.geomout) As lat, (addy).address As stno, (addy).streetname As street, (addy).streettypeabbrev As styp, (addy).location As city, (addy).stateabbrev As st,(addy).zip FROM geocode(%s) As g;", [address])
+        # geoaddy = AddressGeocode.objects.using('geocoder').raw("SELECT g.rating, ST_X(g.geomout) AS lon, ST_Y(g.geomout) AS lat, pprint_addy(addy) AS address FROM geocode(%s) as g LIMIT 1", [address])[0]
+        # print(geoaddy.address)
+        # # for obj in geoaddy:
         #     print('{o.rating} {o.lat} {o.lon} {o.address}'.format(o=obj))
         
         # f1 = Feature.objects.get(pk=1)

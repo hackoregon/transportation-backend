@@ -45,17 +45,22 @@ def jsonToPLP(importList, meta='API_META'):
                     dateRange = DateRange(lower=None, upper=None)
             else:
                     dateRange = DateRange(lower=None, upper=None)
-            
+
             # Make the Geometry
             geom = GEOSGeometry(str(feature['geometry']))
             if geom.geom_type not in ['Point', 'MultiPoint', 'LineString', 'MultiLineString', 'Polygon', 'MultiPolygon']:
                 print("Could not identify geometry type: {}.  Exiting.".format(geom.geom_type))
                 sys.exit()
-            
+
             try:
                 status = feature['properties'][metadata['status']]
             except:
                 status = ''
+
+            try:
+                hood = models.Neighborhood.objects.filter(geom__intersects=geom)[0]
+            except IndexError:
+                hood = None
 
             newPoint = models.Feature(
                 geom=geom,
@@ -65,7 +70,8 @@ def jsonToPLP(importList, meta='API_META'):
                 canonical_status=status,
                 source_ref=apiModel,
                 source_name=apiModel.source_name,
-                data=feature['properties']
+                data=feature['properties'],
+                neighborhood=hood,
             )
 
             newPoint.save()
