@@ -28,7 +28,7 @@ def jsonToPLP(importList, meta='API_META'):
         counter = 0
         for feature in sourceJson['features']:
             counter += 1
-            print(feature)
+            # print(feature)
 
             # Make the dateRange from the API specific start and end date fields
             # startFieldKey = metadata['startDateField']
@@ -67,5 +67,5 @@ def jsonToPLP(importList, meta='API_META'):
                 source_name=apiModel.source_name,
                 data=feature['properties']
             )
-            print ("Save")
+            # print ("Save")
             newPoint.save()

@@ -16,6 +16,15 @@ class API_element(models.Model):
         return self.source_name
 
 
+class Neighborhood(models.Model):
+    geom = models.GeometryField()
+    name = models.CharField(max_length=2083)
+    label = models.CharField(max_length=2083)
+
+    def __str__(self):
+        return self.label
+
+
 class Feature(models.Model):
     geom = models.GeometryField()
     orig_daterange = DateRangeField()
@@ -25,6 +34,7 @@ class Feature(models.Model):
     source_ref = models.ForeignKey(API_element)
     source_name = models.CharField(max_length=2083)
     data = models.TextField(default=None)
+    neighborhood = models.ForeignKey(Neighborhood, default=None, null=True)
 
     def __str__(self):
         return("{} -- {} {} {}".format(self.id, self.source_name, self.canonical_daterange, self.geom))
