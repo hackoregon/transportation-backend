@@ -10,26 +10,22 @@ def buildGraphs():
 
 
     featureGraph = nx.Graph()
-
     
-    conflictSourceIDs = []
-
-    z = API_element.objects.values_list('api_name')
-    print(z)
-    sourceNames = list(API_META.keys()) + list(CSV_META.keys()) + list(GEOJSON_META.keys())
+    # There are some polygon sources that we want to ignore, so we identify the sources to 
+    conflictExSources = []
     sourceDict = {}
     sourceDict.update(API_META)
     sourceDict.update(CSV_META)
     sourceDict.update(GEOJSON_META)
     for sourceName in sourceDict:
-        if sourceDict[sourceName]['forConflict']:
-            conflictSourceIDs.append(API_element.objects.get(api_name=sourceName).id)
-            
+        if not sourceDict[sourceName]['forConflict']:
+            conflictExSources.append(API_element.objects.get(api_name=sourceName).id)
 
-    print('\n'.join(conflictSourceIDs))
-    sys.exit()
+    print('\n'.join(map(str, conflictExSources))) 
+    print(Feature.objects.all().count())
+    print(Feature.objects.exclude(source_ref__in=conflictExSources).count())
 
-    features = Feature.objects.all()
+    features = Feature.objects.exclude(source_ref__in=conflictExSources)
     polyIDs = [f.id for f in features if 'POLYGON' in str(f.geom).upper()]
     featuresNoPolys = Feature.objects.exclude(id__in=polyIDs)
 
