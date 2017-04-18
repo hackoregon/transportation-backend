@@ -1,0 +1,15 @@
+version: '2'
+services:
+  transport-service:
+    environment:
+    - PROJ_SETTINGS_DIR=${PROJ_SETTINGS_DIR}
+    - DEPLOY_TARGET=${DEPLOY_TARGET}
+    - CONFIG_BUCKET=${CONFIG_BUCKET}
+    image: "${DOCKER_IMAGE}"
+    build: ./transDjango
+    # command: /code/bin/docker-entrypoint.sh
+    # command: /code/bin/start-api-server.sh
+    volumes:
+      - ./transDjango:/code
+    ports:
+      - "8000:8000"

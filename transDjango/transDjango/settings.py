@@ -10,12 +10,29 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
+import requests
 import os
-from .settings_local import *
+#from .settings_local import *
+
+## imports sensitive settings from file. you need to create this as instructed in README
+from . import project_config
+
+SECRET_KEY = project_config.DJANGO_SECRET_KEY
+ALLOWED_HOSTS = project_config.ALLOWED_HOSTS
+
+# Get the IPV4 address we're working with on AWS
+# The Loadbalancer uses this ip address for healthchecks
+EC2_PRIVATE_IP = None
+try:
+    EC2_PRIVATE_IP = requests.get('http://169.254.169.254/latest/meta-data/local-ipv4', timeout=0.01).text
+except requests.exceptions.RequestException:
+    pass
+
+if EC2_PRIVATE_IP:
+    ALLOWED_HOSTS.append(EC2_PRIVATE_IP)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -37,6 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'rest_framework',
     'rest_framework_gis',
+    'rest_framework_swagger'
 ]
 
 MIDDLEWARE = [
@@ -142,4 +160,30 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/transport/static/'
+
+# This seems to be necessary to enable the Django app to correctly style
+# the Swagger wrapper when the Django app runs inside a Docker container
+STATIC_ROOT = 'staticfiles'
+
+
+DATABASES = {
+   'default': {
+       'ENGINE': project_config.DEFAULT['ENGINE'],
+       'NAME': project_config.DEFAULT['NAME'],
+       'HOST': project_config.DEFAULT['HOST'],
+       'PORT': project_config.DEFAULT['PORT'],
+       'USER': project_config.DEFAULT['USER'],
+       'PASSWORD': project_config.DEFAULT['PASSWORD'],
+   },
+    'geocoder': {
+        'ENGINE': project_config.GEOCODER['ENGINE'],
+        'NAME': project_config.GEOCODER['NAME'],
+        'USER': project_config.GEOCODER['USER'],
+        'PASSWORD': project_config.GEOCODER['PASSWORD'],
+        'HOST': project_config.GEOCODER['HOST'],
+        'PORT': project_config.GEOCODER['PORT'],
+    }
+}
+
+DEBUG = project_config.DEBUG

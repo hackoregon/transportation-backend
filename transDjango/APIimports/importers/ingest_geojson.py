@@ -73,5 +73,5 @@ def jsonToPLP(importList, meta='API_META'):
                 data=feature['properties'],
                 neighborhood=hood,
             )
-
+            # print ("Save")
             newPoint.save()
