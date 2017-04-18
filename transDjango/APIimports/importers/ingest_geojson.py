@@ -42,9 +42,9 @@ def jsonToPLP(importList, meta='API_META'):
                 if end >= start:
                     dateRange = DateRange(lower=start, upper=end)
                 else:
-                    dateRange = DateRange(lower=None, upper=None)
+                    dateRange = None
             else:
-                    dateRange = DateRange(lower=None, upper=None)
+                    dateRange = None
 
             # Make the Geometry
             geom = GEOSGeometry(str(feature['geometry']))

@@ -27,8 +27,8 @@ class Neighborhood(models.Model):
 
 class Feature(models.Model):
     geom = models.GeometryField()
-    orig_daterange = DateRangeField()
-    canonical_daterange = DateRangeField()
+    orig_daterange = DateRangeField(null=True, blank=True)
+    canonical_daterange = DateRangeField(null=True, blank=True)
     orig_status = models.CharField(max_length=2083, null=True, default='')
     canonical_status = models.CharField(max_length=2083, null=True, default='')
     source_ref = models.ForeignKey(API_element)

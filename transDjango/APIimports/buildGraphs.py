@@ -12,23 +12,22 @@ def buildGraphs():
     featureGraph = nx.Graph()
     
     # There are some polygon sources that we want to ignore, so we identify the sources to 
-    conflictExSources = []
+    excludeSourceRefs = list()
     sourceDict = {}
     sourceDict.update(API_META)
     sourceDict.update(CSV_META)
     sourceDict.update(GEOJSON_META)
     for sourceName in sourceDict:
         if not sourceDict[sourceName]['forConflict']:
-            conflictExSources.append(API_element.objects.get(api_name=sourceName).id)
+            excludeSourceRefs.append(API_element.objects.get(api_name=sourceName).id)
 
-    print('\n'.join(map(str, conflictExSources))) 
-    print(Feature.objects.all().count())
-    print(Feature.objects.exclude(source_ref__in=conflictExSources).count())
-
-    features = Feature.objects.exclude(source_ref__in=conflictExSources)
-    polyIDs = [f.id for f in features if 'POLYGON' in str(f.geom).upper()]
-    featuresNoPolys = Feature.objects.exclude(id__in=polyIDs)
-
+    excludeFeatureIDs = set()
+    
+    #Ignore things that don't have dates
+    filteredFeatures = Feature.objects.exclude(canonical_daterange=None)\
+        .exclude(neighborhood=None)\
+        .exclude(source_ref__in=excludeSourceRefs)
+    
     for idx, f1 in enumerate(featuresNoPolys):
         print('idx', idx)
         for f2 in features[idx+1:]:
