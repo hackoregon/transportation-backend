@@ -58,6 +58,8 @@ psql -c "CREATE EXTENSION address_standardizer_data_us CASCADE;"
 psql -c "CREATE EXTENSION postgis_tiger_geocoder CASCADE;"
 echo "Documenting database to ${USER}.html"
 postgresql_autodoc -d ${USER} -t html
-echo "Restoring geocoder database - this will take a while"
+echo "Downloading gecoder database dump"
 wget https://github.com/hackoregon/postgis-geocoder-test/releases/download/v1.5.0/geocoder.pgdump
+echo "Restoring geocoder database - this will take a while"
 sudo su postgres -c "pg_restore -C -d postgres geocoder.pgdump"
+postgresql_autodoc -d geocoder  -t html
