@@ -34,13 +34,13 @@ class ConflictView(generics.ListAPIView):
         minDays = getMinDist(self.request, 'days', 14)
         
         collisionGraph = cache.get('featureGraph')
-        featureSet = set()
+        featureIDs = set()
         for u, v, d in collisionGraph.edges(data=True):
 
             if d['daysApart'] <= minDays and d['distance'] <= minDist:
-                featureSet = {u, v} | featureSet
-
-        return featureSet
+                featureIDs = {u, v} | featureIDs
+        # print(featureIDs)
+        return Feature.objects.filter(pk__in=featureIDs)
 
 
 class NearbyProjects(generics.ListAPIView):

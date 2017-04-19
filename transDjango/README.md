@@ -16,7 +16,7 @@ git clone https://github.com/hackoregon/transportation-backend.git
 cd transportation-backend
 virtualenv -p python3 venv
 source venv/bin/activate
-pip install -r requirements.txt
+pip install -r ./transDjango/requirements.txt
 brew install gdal
 brew install libgeoip
 psql postgres
@@ -36,7 +36,7 @@ CREATE EXTENSION postgis;
 Enable local settings. 
 
 ```
-mv transDjango/transDjango/settings_local_example.py transDjango/transDjango/settings_local.py
+mv transDjango/transDjango/project_config_example.py transDjango/transDjango/project_config.py
 ```
 
 Create the database structure
@@ -62,6 +62,10 @@ Load local geojson data (converted from City of Portland shapefiles). Warning: B
 
 `./manage.py ingest_local_jsons`
 
+In order for the conflict api to work, you'll need to precalculate the pairwise comparisons of the features:
+
+`./manage.py buildGraphs`
+
 Run the dev server and see if the API is working
 
 `./manage.py runserver`
@@ -70,23 +74,23 @@ Run the dev server and see if the API is working
 
 All Features
 
-`localhost:8000/api/features`
+`localhost:8000/transport/features`
 
 Single Features
 
-`localhost:8000/api/features/1`
+`localhost:8000/transport/features/1`
 
 Features can be filtered by source name
 
-`localhost:8000/api/features?source_name=Grind and Pave`
+`localhost:8000/transport/features?source_name=Grind and Pave`
 
 Conflict data can be used with or without minimum date(days) and distance(meters) query params.  Default is 14 days and 100 meters.
 
-`localhost:8000/api/conflicts?days=7&distance=200`
+`localhost:8000/transport/conflicts?days=7&distance=200`
 
 A address can be provided to find nearby projects.  Required query params are 'address' and 'date'.  Optional params are 'days' and 'distance'.
 
-`localhost:8000/api/nearby?address=321%20NW%20Glisan%20Ave,%20Portland,%20OR&date=2016-03-03&distance=500&days=20`
+`localhost:8000/transport/nearby?address=321%20NW%20Glisan%20Ave,%20Portland,%20OR&date=2016-03-03&distance=500&days=20`
 
 ### Current imported data
 

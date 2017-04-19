@@ -23,13 +23,14 @@ GEOCODER = {
     }
 
 DEFAULT = {
-    'ENGINE': '',
-    'NAME': '',
-    'HOST': '',
-    'PORT': '',
-    'USER': '',
-    'PASSWORD': '',
+    'ENGINE': 'django.contrib.gis.db.backends.postgis',
+    'NAME': 'transdev',
+    'HOST': 'localhost',
+    'PORT': '5432',
+    'USER': 'transdev',
+    'PASSWORD': 'password',
 }
+
 
 DJANGO_SECRET_KEY = 'yourSecretKeyHere'
 

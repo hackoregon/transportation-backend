@@ -4,7 +4,6 @@ from django.core.cache import cache, caches
 import networkx as nx
 from django.contrib.gis.db.models.functions import Distance
 import sys
-from APIimports.buildGraphs import addNodes
 from APIimports import models
 
 
@@ -14,9 +13,26 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        for n in models.Neighborhood.objects.all():
-            adjacents = models.Neighborhood.objects.filter(geom__touches=n.geom)
-            print(n.name, '----', list(adjacents.values('name')))
+        o = models.Feature.objects.filter(pk__in=[47777, 47600])
+        print('before', o)
+        print('after', o.exclude(canonical_daterange__isempty=True))    
+
+
+        # from psycopg2.extras import DateRange
+        # import datetime
+
+        # d1 = datetime.date(2016, 3, 15)
+        # d2 = datetime.date(2016, 3, 20)
+        # dr1 = DateRange(lower=d1, upper=d2)
+        
+        # d3 = datetime.date(2016, 4, 15)
+        # d4 = datetime.date(2016, 4, 20)
+        # dr2 = DateRange(lower=d3, upper=d4)
+        # print(dr1, dr2)
+        # print(dr2-dr1)
+        # for n in models.Neighborhood.objects.all():
+        #     adjacents = models.Neighborhood.objects.filter(geom__touches=n.geom)
+        #     print(n.name, '----', list(adjacents.values('name')))
 
 
         # address = '1211 SW 5th Ave, Portland, OR'
