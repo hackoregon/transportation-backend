@@ -15,15 +15,20 @@ postgis.list
 
 To test: Start the server: `cd ubuntu-local-deploy; ./4start-server`. Then right-click on one of the endpoints below and open in a new tab.
 
-All Features - warning: this takes a couple of minutes!  <http://localhost:8000/transport/features>
+All Features - warning: this takes a couple of minutes!<br>
+<http://localhost:8000/transport/features>
 
-Single Features:  <http://localhost:8000/transport/features/1>
+Single Features:<br>
+<http://localhost:8000/transport/features/1>
 
-Features can be filtered by source name:  <http://localhost:8000/transport/features?source_name=Grind%29and%29Pave>
+Features can be filtered by source name:<br>
+<http://localhost:8000/transport/features?source_name=Grind%29and%29Pave>
 
-Conflict data can be used with or without minimum date(days) and distance(meters) query params.  Default is 14 days and 100 meters.  <http://localhost:8000/transport/conflicts?days=7&distance=200>
+Conflict data can be used with or without minimum date(days) and distance(meters) query params.  Default is 14 days and 100 meters.<br>
+<http://localhost:8000/transport/conflicts?days=7&distance=200>
 
-A address can be provided to find nearby projects.  Required query params are 'address' and 'date'.  Optional params are 'days' and 'distance'.  <http://localhost:8000/transport/nearby?address=321%20NW%20Glisan%20Ave,%20Portland,%20OR&date=2016-03-03&distance=500&days=20>
+A address can be provided to find nearby projects.  Required query params are 'address' and 'date'.  Optional params are 'days' and 'distance'.<br>
+<http://localhost:8000/transport/nearby?address=321%20NW%20Glisan%20Ave,%20Portland,%20OR&date=2016-03-03&distance=500&days=20>
 
 ### Current imported data
 
