@@ -15,7 +15,7 @@ AWS = {
 
 GEOCODER = {
     'ENGINE': 'django.contrib.gis.db.backends.postgis',
-    'NAME': 'transdev',
+    'NAME': 'geocoder',
     'HOST': 'localhost',
     'PORT': '5432',
     'USER': 'transdev',
