@@ -1,11 +1,12 @@
 # Local deployment on Ubuntu 16.04 LTS workstation
 
 1. `cd ubuntu-local-deploy`.
-2. `./1install-database-gis-services`. This installs all the Ubuntu packages you'll need. It will pause to approve adding the UbuntuGIS PPA - press `Enter` when it does. Please file an issue if it conflicts with things you already have installed!!
+2. `./1install-database-gis-services`. This installs all the Ubuntu packages you'll need. It will pause for you to approve adding the UbuntuGIS PPA - press `Enter` when it does. Please file an issue if it conflicts with things you already have installed!!
 
      The script will add you as a PostgreSQL superuser with your user ID, so you can connect via the Unix socket using peer authentication without a password. It will also create a database for you with the same name as your user ID and create all the PostGIS extensions in it. If these operations have already been done it will throw errors that you can ignore. After creating the database, the script will create database schema document via `postgresql_autodoc` in `<your-user-id>.html`.
 3. `./2provision`. This creates the `transdev` PostgreSQL role / database and the `venv` Python virtual environment.
-4. `./3start-django`. This populates the database and starts the server listening on localhost:8000
+4. `./3populate-database`. This populates the database and documents the schema to `transDjango/transdev.html`'
+5. `./4start-server`. This starts the server listening on `localhost:8000`.
 postgis.list
 
 ## Sample APIs
