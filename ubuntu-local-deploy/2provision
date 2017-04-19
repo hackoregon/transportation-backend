@@ -1,0 +1,11 @@
+#! /bin/bash -v
+
+pushd ..
+virtualenv -p python3 venv
+source venv/bin/activate
+pip install -r ./transDjango/requirements.txt
+psql -c "CREATE ROLE transdev WITH PASSWORD 'password' LOGIN;"
+psql -c "CREATE DATABASE transdev WITH OWNER=transdev;"
+psql -d transdev -c "CREATE EXTENSION postgis;"
+cp transDjango/transDjango/project_config_example.py transDjango/transDjango/project_config.py
+popd
