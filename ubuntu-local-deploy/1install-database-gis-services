@@ -56,3 +56,5 @@ psql -c "CREATE EXTENSION pgrouting CASCADE;"
 psql -c "CREATE EXTENSION address_standardizer CASCADE;"
 psql -c "CREATE EXTENSION address_standardizer_data_us CASCADE;"
 psql -c "CREATE EXTENSION postgis_tiger_geocoder CASCADE;"
+echo "Documenting database to ${USER}.html"
+postgresql_autodoc -d ${USER} -t html
