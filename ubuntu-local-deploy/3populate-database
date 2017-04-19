@@ -14,7 +14,7 @@ cd transDjango
 # Copy data to the main geometry tables that are connected to the API
 ./manage.py ingest_jsons
 
-#Convert local CSV data into geojson and load them to the main geometry tables
+# Convert local CSV data into geojson and load them to the main geometry tables
 ./manage.py ingest_csvs
 
 # Load local geojson data (converted from City of Portland shapefiles). Warning: BIG FILE!
@@ -23,5 +23,5 @@ cd transDjango
 # In order for the conflict api to work, you'll need to precalculate the pairwise comparisons of the features:
 ./manage.py buildGraphs
 
-# Run the dev server and see if the API is working
-./manage.py runserver
+# document schema
+postgresql_autodoc -d transdev -t html
