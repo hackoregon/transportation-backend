@@ -1,0 +1,6 @@
+#! /bin/bash -v
+
+cd ..
+source venv/bin/activate
+cd transDjango
+./manage.py runserver
