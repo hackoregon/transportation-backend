@@ -46,6 +46,10 @@ cd transDjango
 ./manage.py createcachetable
 ```
 
+Import the neighborhood boundaries
+
+`./manage.py load_neighborhoods`
+
 Download API json files to the database
 
 `./manage.py import_jsons`

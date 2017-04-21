@@ -17,9 +17,9 @@ def load_neighborhoods():
             data = json.load(infile)
 
         for d in data['features']:
-            print(d['properties']['NAME'])
-            print(d['properties']['MAPLABEL'])
-            print(d['geometry'])
+            # print(d['properties']['NAME'])
+            # print(d['properties']['MAPLABEL'])
+            # print(d['geometry'])
             geom = GEOSGeometry(str(d['geometry']))
             neighborhood = Neighborhood(
                 geom=geom,
