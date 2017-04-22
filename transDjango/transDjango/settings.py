@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.postgres',
     'django.contrib.gis',
+    'whitenoise.runserver_nostatic',
     'rest_framework',
     'rest_framework_gis',
     'rest_framework_swagger'
@@ -59,6 +60,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -190,3 +192,4 @@ DATABASES = {
 }
 
 DEBUG = project_config.DEBUG
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
