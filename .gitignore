@@ -14,3 +14,4 @@ staticfiles/
 myenv.sh
 localtst.sh
 env.sh
+.Rproj.user
