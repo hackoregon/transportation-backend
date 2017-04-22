@@ -2,7 +2,7 @@
 
 cp project_config_default.py ../transDjango/transDjango/project_config.py
 pushd ..
-virtualenv -p python3 venv
+virtualenv -p /usr/bin/python3 venv
 source venv/bin/activate
 pip install -r ./transDjango/requirements.txt
 psql -c "CREATE ROLE transdev WITH PASSWORD 'password' LOGIN;"
