@@ -10,4 +10,4 @@ python manage.py collectstatic --noinput
 
 # Fire up a lightweight frontend to host the Django endpoints - gunicorn was the default choice
 # gevent used to address ELB/gunicorn issue here https://github.com/benoitc/gunicorn/issues/1194
-gunicorn transDjango.wsgi:application -b :8000 --worker-class 'gevent'
+gunicorn transDjango.wsgi:application -b :8000 --worker-class 'gevent' --workers 1
