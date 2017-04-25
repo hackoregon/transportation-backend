@@ -5,7 +5,7 @@ sudo cp postgis.list /etc/apt/sources.list.d/
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc \
   | sudo apt-key add -
 echo "Adding UbuntuGIS Stable PPA"
-sudo add-apt-repository ppa:ubuntugis/ppa
+sudo add-apt-repository -y ppa:ubuntugis/ppa
 sudo apt-get update
 echo "http://apt.postgresql.org/pub/repos/apt repository added!"
 echo ""
