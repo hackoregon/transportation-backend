@@ -1,0 +1,10 @@
+#! /bin/bash
+
+echo ""
+echo "Creating a virtual environment named 'pgadmin'."
+virtualenv --python=/usr/bin/python3 pgadmin
+source pgadmin/bin/activate
+pip install \
+  https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v1.4/pip/pgadmin4-1.4-py2.py3-none-any.whl
+rm -fr ~/.pgadmin
+python pgadmin/lib/python3.5/site-packages/pgadmin4/pgAdmin4.py
