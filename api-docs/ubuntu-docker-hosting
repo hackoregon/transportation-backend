@@ -1,0 +1,51 @@
+#! /bin/bash
+
+# Uninstall any old versions
+echo "Removing any old Docker packages"
+echo "You can ignore errors"
+sudo apt-get remove \
+  docker \
+  docker-engine \
+  docker-compose
+
+# Set up the Docker CE repository on Ubuntu:
+echo "Adding the Docker CE repository"
+sudo apt-get -y install \
+  apt-transport-https \
+  ca-certificates \
+  curl \
+  software-properties-common \
+  lynx
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository \
+  "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) \
+  stable"
+sudo apt-get update
+
+# Install the latest version of Docker CE on Ubuntu:
+echo "Installing Docker CE"
+sudo apt-get -y install \
+  docker-ce
+
+# Docker Compose
+echo "Installing Docker Compose 1.12.0"
+curl -Ls https://github.com/docker/compose/releases/download/1.12.0/docker-compose-`uname -s`-`uname -m` \
+  > docker-compose
+sudo mv docker-compose /usr/local/bin
+sudo chmod +x /usr/local/bin/docker-compose
+
+# Start Docker:
+echo "Enabling and starting Docker"
+sudo systemctl enable docker
+sudo systemctl start docker
+
+# Test your installation:
+echo "Testing it!"
+sudo docker run hello-world
+
+# Configure "docker" group
+echo "Adding ${USER} to the 'docker' group"
+sudo groupadd docker
+sudo usermod -aG docker ${USER}
+echo "Log out and back in to join the 'docker' group."
