@@ -16,7 +16,7 @@ geopy==1.11.0
 networkx==1.11
 awscli
 whitenoise
-
+psycogreen
 
 # find out which ones of these are needed
 #appdirs==1.4.0
