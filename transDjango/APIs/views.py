@@ -81,8 +81,9 @@ class ConflictView(generics.ListAPIView):
         collisionGraph = cache.get('featureGraph')
         featureIDs = set()
         for u, v, d in collisionGraph.edges(data=True):
-
             if d['daysApart'] <= minDays and d['distance'] <= minDist:
+                # if u in [63400, 66403] and v in [63400, 66403]:
+                #     print('uvd', u, v, d)
                 featureIDs = {u, v} | featureIDs
         
         filteredFeatures = Feature.objects\
