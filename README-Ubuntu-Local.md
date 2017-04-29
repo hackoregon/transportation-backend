@@ -22,7 +22,7 @@ Single Features:<br>
 <http://localhost:8000/transport/features/1>
 
 Features can be filtered by source name:<br>
-<http://localhost:8000/transport/features?source_name=Grind%29and%29Pave>
+<http://localhost:8000/transport/features?source_name=Grind%20and%20Pave>
 
 Conflict data can be used with or without minimum date(days) and distance(meters) query params.  Default is 14 days and 100 meters.<br>
 <http://localhost:8000/transport/conflicts?days=7&distance=200>
