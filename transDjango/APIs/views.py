@@ -102,11 +102,6 @@ class NearbyProjects(generics.ListAPIView):
         params = self.request.query_params
         excludeStatuses = ['COMPLETED', 'COMPLETED', 'COMPLETE', 'DENIED', 'CANCELED']
         minDist = params.get('distance', 100)
-        minDays = params.get('days', 14)
-        # queryDate = parser.parse(self.request.query_params['date']).date()
-        # startDate = queryDate - datetime.timedelta(days=minDays)
-        # endDate = queryDate + datetime.timedelta(days=minDays)
-        # queryDateRange = DateRange(startDate, endDate)
         defaultStart = datetime.date.today() - datetime.timedelta(days=2)
         defaultEnd = defaultStart + datetime.timedelta(days=365)
         startDate = params.get('startDate', defaultStart.isoformat())

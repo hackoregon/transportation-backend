@@ -13,9 +13,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        o = models.Feature.objects.filter(pk__in=[47777, 47600])
-        print('before', o)
-        print('after', o.exclude(canonical_daterange__isempty=True))    
+        # o = models.Feature.objects.filter(pk__in=[47777, 47600])
+        # print('before', o)
+        # print('after', o.exclude(canonical_daterange__isempty=True))    
 
 
         # from psycopg2.extras import DateRange
@@ -134,8 +134,18 @@ class Command(BaseCommand):
         # for n in featureGraph.nodes():
         #     for n2 in featureGraph[n]:
         #         attrib = featureGraph.get_edge_data(n, n2)
-        #         print('n1id, n2id', n.id, n2.id)
-        #         print('t, d', attrib['time'], attrib['dist'].m)
+        #         if n == 66403:
+        #             print('n1id, n2id', n, n2)
+        #             print('n1', models.Feature.objects.filter(pk=n))
+        #             print('n2', models.Feature.objects.filter(pk=n2))
+        #             print('t, d', attrib['daysApart'], attrib['distance'])
+
+        featureGraph = cache.get('featureGraph')
+        features = featureGraph[66403]
+        for f in features:
+            print(f)
+            sys.exit()
+        print(features[66403])
                 
         # sys.exit()
         
