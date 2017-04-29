@@ -5,6 +5,7 @@ import networkx as nx
 from django.contrib.gis.db.models.functions import Distance
 import sys
 from APIimports import models
+from django.contrib.gis.measure import Distance, D
 
 
 
@@ -13,9 +14,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        o = models.Feature.objects.filter(pk__in=[47777, 47600])
-        print('before', o)
-        print('after', o.exclude(canonical_daterange__isempty=True))    
+        # o = models.Feature.objects.filter(pk__in=[47777, 47600])
+        # print('before', o)
+        # print('after', o.exclude(canonical_daterange__isempty=True))    
 
 
         # from psycopg2.extras import DateRange
@@ -134,8 +135,31 @@ class Command(BaseCommand):
         # for n in featureGraph.nodes():
         #     for n2 in featureGraph[n]:
         #         attrib = featureGraph.get_edge_data(n, n2)
-        #         print('n1id, n2id', n.id, n2.id)
-        #         print('t, d', attrib['time'], attrib['dist'].m)
+        #         if n == 66403:
+        #             print('n1id, n2id', n, n2)
+        #             print('n1', models.Feature.objects.filter(pk=n))
+        #             print('n2', models.Feature.objects.filter(pk=n2))
+        #             print('t, d', attrib['daysApart'], attrib['distance'])
+
+        featureGraph = cache.get('featureGraph')
+        features = featureGraph[66403]
+        # for f in features:
+        #     if f == 63400:
+        #         print(f)
+                
+        print(features[63400])
+        f1 = Feature.objects.filter(pk=66403)[0]
+        print('main', f1.geom)
+        f2 = Feature.objects.filter(pk=63687)[0]
+        print('2', f2.geom)
+        edge = featureGraph[63400][63687]
+        print('edge', edge)
+        close = Feature.objects.filter(geom__distance_lte=(f1.geom, D(m=100)))
+        close.annotate(distance=Distance('geom', f1.geom))
+        for c in close:
+            print('pk, dist', c.id)
+        
+
                 
         # sys.exit()
         

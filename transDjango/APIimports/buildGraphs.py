@@ -12,7 +12,7 @@ def buildGraphs():
 
     featureGraph = nx.Graph()
     
-    # There are some polygon sources that we want to ignore, so we identify the sources to 
+    # There are some polygon sources that we want to ignore
     excludeSourceRefs = list()
     sourceDict = {}
     sourceDict.update(API_META)
@@ -41,10 +41,10 @@ def buildGraphs():
         for f2 in filteredFeatures[idx+1:]:
             if f1.id == f2.id:
                 continue
+        
             daysApart = getDayDiff(f1, f2)
-            if daysApart < 60:
-                featureGraph.add_nodes_from([f1.id, f2.id])
-                featureGraph.add_edge(f1.id, f2.id, {'daysApart':daysApart})
+            featureGraph.add_nodes_from([f1.id, f2.id])
+            featureGraph.add_edge(f1.id, f2.id, {'daysApart':daysApart})
             
         # if idx > 10:
         #     break
