@@ -16,7 +16,7 @@ from django.core.wsgi import get_wsgi_application
 # Deploying Docker containers to ECS often timed out and the new container would get killed by ALB
 # That problem disappeared completely once this monkey patching was implemented
 from psycogreen.gevent import patch_psycopg
-from gevent import monkey; monkey.patch_all()
+from gevent import monkey; monkey.patch_all(thread=False)
 
 patch_psycopg()
 
