@@ -37,7 +37,7 @@ def buildGraphs():
     print('filteredFeatures count', filteredFeatures.count())
     
     for idx, f1 in enumerate(filteredFeatures):
-        print('idx', idx)
+        # print('idx', idx)
         for f2 in filteredFeatures[idx+1:]:
             if f1.id == f2.id:
                 continue
@@ -70,11 +70,13 @@ def buildGraphs():
         connectedFeatures = Feature.objects.filter(pk__in=cids)
 
         counter += 1
-        print('counter: {} of {}'.format(counter, datedFeatures.count()))
+        # print('counter: {} of {}'.format(counter, datedFeatures.count()))
         for f2 in connectedFeatures.annotate(distance=Distance('geom', f1.geom)):
             # print(f1.id, f2.id)
             # print(f1.canonical_daterange, f2.canonical_daterange)            
             featureGraph.add_edge(f1.id, f2.id, distance=f2.distance.m)
+            if f2.distance.m < 200.0:
+                print(f1, f2, f2.distance)
 
     print('nodecount', nx.number_of_nodes(featureGraph))
     print('edgecount', nx.number_of_edges(featureGraph))
