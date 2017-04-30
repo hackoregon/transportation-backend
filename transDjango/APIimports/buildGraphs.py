@@ -34,7 +34,7 @@ def buildGraphs():
         .exclude(canonical_status__in=excludeStatuses)\
         .filter(canonical_daterange__overlap=DateRange(lower='2015-01-01', upper='2020-01-01'))
         
-    print('filteredFeatures count', filteredFeatures.count())
+    # print('filteredFeatures count', filteredFeatures.count())
     
     for idx, f1 in enumerate(filteredFeatures):
         # print('idx', idx)
@@ -49,8 +49,8 @@ def buildGraphs():
         # if idx > 10:
         #     break
 
-    print('nodecount', nx.number_of_nodes(featureGraph))
-    print('edgecount', nx.number_of_edges(featureGraph))
+    # print('nodecount', nx.number_of_nodes(featureGraph))
+    # print('edgecount', nx.number_of_edges(featureGraph))
     
     datedFeatureIDs = [f for f in featureGraph.nodes()]
     datedFeatures = Feature.objects.filter(pk__in=datedFeatureIDs)
@@ -75,8 +75,8 @@ def buildGraphs():
             # print(f1.id, f2.id)
             # print(f1.canonical_daterange, f2.canonical_daterange)            
             featureGraph.add_edge(f1.id, f2.id, distance=f2.distance.m)
-            if f2.distance.m < 200.0:
-                print(f1, f2, f2.distance)
+            if f2.distance.m < 100.0:
+                print(f2.distance, "|", f1, "|", f2)
 
     print('nodecount', nx.number_of_nodes(featureGraph))
     print('edgecount', nx.number_of_edges(featureGraph))
