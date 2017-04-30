@@ -22,3 +22,4 @@ CREATE INDEX geom_gist
     ON public.test_mat_view USING gist
     (geom)
     TABLESPACE pg_default;
+VACUUM ANALYZE test_mat_view;
