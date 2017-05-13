@@ -20,11 +20,11 @@ else
           $PROJ_SETTINGS_DIR/project_config.py;
 
 echo "PROJ_SETTINGS_DIR currently equals:"
-echo PROJ_SETTINGS_DIR
+echo $PROJ_SETTINGS_DIR
 echo "Checking where the file landed..."
-pwd
 ls -la /code
 ls -la $PROJ_SETTINGS_DIR
+ls -la $PROJ_SETTINGS_DIR/transDjango
 
   echo "#### CONFIG COPY COMPLETE###"
 
