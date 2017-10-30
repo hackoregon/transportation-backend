@@ -7,6 +7,9 @@
 # OR:
 # $ bash setup-linux.sh
 
+# below steps copied originally from transportation-backend/transDjango/README.md 
+# see: https://github.com/hackoregon/transportation-backend/blob/master/transDjango/README.md
+
 # if this script is executing then we are already inside of a working copy tree cloned from the repo
 #git clone https://github.com/hackoregon/transportation-backend.git
 #cd transportation-backend
