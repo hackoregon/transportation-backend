@@ -6,7 +6,7 @@ if [ -z "$TRAVIS_PULL_REQUEST" ] || [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
   if [ "$TRAVIS_BRANCH" == "master" ]; then
     export PATH=$PATH:$HOME/.local/bin
     echo Getting the ECR login... # Troubleshooting
-    eval $(aws ecr get-login --region $AWS_DEFAULT_REGION)
+    eval $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
     echo Running docker push command... # Troubleshooting
     docker push "$DOCKER_REPO"/"$DEPLOY_TARGET"/"$DOCKER_IMAGE":latest
     echo Running ecs-deploy.sh script... # Troubleshooting
