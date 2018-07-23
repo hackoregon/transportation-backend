@@ -20,7 +20,7 @@ install:
 # before_script:
 # - ./bin/getconfig.sh
 script:
-# - './bin/build-test-proj.sh -t
-  - './bin/build-proj.sh -t'
+ - ./bin/build-test-proj.sh -t
+#  - './bin/build-proj.sh -t'
 after_success:
  - ./bin/docker-push.sh
