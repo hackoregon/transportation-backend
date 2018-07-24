@@ -18,6 +18,9 @@ awscli
 whitenoise
 psycogreen
 
+# Testing
+pytest-django==3.2.1
+
 # find out which ones of these are needed
 #appdirs==1.4.0
 #get==0.0.0
